@@ -1,11 +1,15 @@
-# Título del trabajo
+# Asistente televisivo para usuario  
 
-Descripción breve del proyecto a realizar (2-3 frases).
+El programa es indepediente para cada usuario en función de sus gustos para llevar a cabo una asistencia guiada.
+La guia se realizara sobre un catalogo tanto de peliculas como la programacion de los canales de televisión
 
 ## Integrantes del equipo
 
-Nombres, apellidos, y usuario GitHub de los integrantes del equipo.
+Carlos Perchín Garcia. usuario: @carlosperchin
+Alejandro Valderrabano Sanchez. @alejandro-valderrabano-sanchez
+Simeon Kamenov Iliev. @Simkamenov
 
 ## Objetivos del trabajo
 
-Lista de los objetivos que se persiguen con el trabajo propuesto.
+Ayudar al usuario a encontrar el contenido multimedia acorde a sus intereses.
+
