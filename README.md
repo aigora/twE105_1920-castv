@@ -6,7 +6,9 @@ La guia se realizara sobre un catalogo tanto de peliculas como la programacion d
 ## Integrantes del equipo
 
 Carlos Perchín Garcia. usuario: @carlosperchin
+
 Alejandro Valderrabano Sanchez. @alejandro-valderrabano-sanchez
+
 Simeon Kamenov Iliev. @Simkamenov
 
 ## Objetivos del trabajo
