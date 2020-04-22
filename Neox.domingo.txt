@@ -1,0 +1,9 @@
+Pelicula;00:00;02:30;La purga
+Minutos musicales;02:30;07:00
+Neox Kidz;07:00;10:00
+El principe de Bel-Air;10:00;13:30
+Los Simpson;13:30;15:30
+Pelicula;15:30;18:00;Cars
+Pelicula;18:00;20:30;Spider Man
+Los simpson;20:30;21:45
+El club de la comedia;21:45;00:00
