@@ -1,0 +1,20 @@
+Al filo del mañana;00:00;00:15
+Danko: calor rojo;00:15;01:50
+Commando actualidad;01:50;02:45
+Noticias 24H;06:00;07:30
+Telediario Matinal; 07:30;09:00
+Noticias 24H; 09:00;10:00
+La mañana de la 1;10:00;13:00
+Coronavirus ultima hora;13:00;14:00
+Informativo territorial;14:00;15:00
+Telediario 1;15:00;16:00
+informativo terrtorial;16:00;16:15
+El tiempo;16:15;16:25
+Mercado central;16:25;17:20
+Servir y proteger;17:20;17:50
+Acarias 38;17:50;18:50
+España directo;18:50;20:30
+Aqui la tierra;20:30;21:00
+Telediario 2;21:00;22:05
+El nombre de la rosa;22:05;23:50
+Grupo 7;23:50;00:00
