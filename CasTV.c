@@ -104,19 +104,6 @@ int ingreso(usuario nombre){//Función ingreso
 			}
 }  
 
-void TomarTiempo(int DiaActual,tiempo HoraActual){//Funcion obtener la hora del sistema
-  int x;
-   time_t t = time(NULL);
-   struct tm tiempoLocal = *localtime(&t);
-  
-   DiaActual= tiempoLocal.tm_wday;
-   HoraActual.hora= tiempoLocal.tm_hour;
-   HoraActual.min= tiempoLocal.tm_min;
-   printf("%d \n",DiaActual);
-   printf("%d \n",HoraActual.hora);
-   printf("%d \n",HoraActual.min);
-}
-
 int main (){//Programa principal
   EscribeNombre();
   //VARIABLES QUE VAMOS A UTILIZAR POSTERIORMENTE
@@ -145,6 +132,8 @@ int main (){//Programa principal
  }while((op1!=1) && (op1!=2));
 
 do{
+	  time_t t = time(NULL);//Se obtiene la hora del sistema por cada repeticion del bucle.
+ 	  struct tm tiempoLocal = *localtime(&t);
  switch(op1){//El usuario ya está registrado
  	case 1:
 	 	//Menú, si qiuere salir deberá escribir "salir"
@@ -156,10 +145,9 @@ do{
 		
 		 switch(op2){
 			    case 1:
-			    	TomarTiempo(DiaActual,HoraActual);//Comprobacion de que los datos se almacenan
-					printf("%d \n",DiaActual);
-   					printf("%d \n",HoraActual.hora);
-  					printf("%d \n",HoraActual.min);
+						   DiaActual= tiempoLocal.tm_wday;
+						   HoraActual.hora= tiempoLocal.tm_hour;
+						   HoraActual.min= tiempoLocal.tm_min;
 					//El usuario elige un apartado del menú
 			    	//Muestra la emision en directo de los canales TDT
 			    	//Aqui iria un menu para elegir el programa
