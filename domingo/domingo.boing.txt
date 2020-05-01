@@ -1,0 +1,29 @@
+Teen Titans Go;00:00;00:40
+Gumball;00:40;01:25
+Lego ninjago;01:25;02:10
+Mr Bean;02:10;03:05
+Mi caballero y yo;03:05;04:00
+Lego Ninjago;04:00;04:45
+Chowder;04:45;06:00
+Mr. Bean;06:00;07:00
+Tom y jerry;07:00;08:00
+Taffy;08:00;09:00
+Doraemon;09:00;10:35
+Gumball;10:35;10:55
+Teen Titans Go;10:55;12:10
+Victor y Valentino;12:10;12:50
+Doraemon;12:50;13:25
+Real mom;13:25;14:15
+Los Thundermans;14:15;15:50
+Teen Titans Go;15:50;17:00
+Gumball;17:00;17:45
+Tom y Jerry;17:45;19:05
+Taffy;19:05;19:35
+Looney Tunes;19:35;20:00
+Gumball;20:00;20:40
+Doraemon;20:40;21:25
+Los Thundermans;21:25;22:15
+Dragon ball;22:15;23:00
+Teen Titans Go;23:00;00:00
+
+

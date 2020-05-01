@@ -1,0 +1,12 @@
+Pelicula;00:00;02:00;Toy Story
+Minutos musicales;02:00;07:00
+Neox Kidz;07:00;09:30
+The Middle;09:30;11:20
+Big Bang;11:20;13:30
+Los Simpson;13:30;15:30
+Friends;15:30;16:30
+Modern Family;16:30;18:00
+Big Bang;18:00;20:00
+Brooklyn Nine-Nine;20:00;21:30
+Los simpson;21:30;22:00
+Modern Family;22:00;00:00

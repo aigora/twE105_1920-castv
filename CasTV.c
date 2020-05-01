@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <time.h>
+
 void EscribeNombre(){//Título 
     printf("        CCCCCCCCCCCCC                               TTTTTTTTTTTTTTTTTTTTTTT   \n");
     printf("     CCC::::::::::::C                               T:::::::::::::::::::::T \n");
@@ -31,6 +34,20 @@ typedef struct{//Estructura de registro de usuario
 	char DNI[10];
 	CuentaBanco x;
 }usuario;
+
+typedef struct{
+    int hora, min;
+}tiempo;
+ 
+typedef struct{
+    tiempo ti, tf;
+    char titulo[60];
+    char descripcion[300];
+}canal;
+
+typedef struct{
+    canal c1[30], c2[30], c3[30], c4[30], c5[30];
+}dia;
 
 int ingreso(usuario nombre){//Función ingreso
      FILE *pf,*cont;
@@ -87,12 +104,30 @@ int ingreso(usuario nombre){//Función ingreso
 			}
 }  
 
+void TomarTiempo(int DiaActual,tiempo HoraActual){//Funcion obtener la hora del sistema
+  int x;
+   time_t t = time(NULL);
+   struct tm tiempoLocal = *localtime(&t);
+  
+   DiaActual= tiempoLocal.tm_wday;
+   HoraActual.hora= tiempoLocal.tm_hour;
+   HoraActual.min= tiempoLocal.tm_min;
+   printf("%d \n",DiaActual);
+   printf("%d \n",HoraActual.hora);
+   printf("%d \n",HoraActual.min);
+}
+
 int main (){//Programa principal
   EscribeNombre();
-  int op1=0,op2=0,op3=0,op4=0,ContReg=0,i,x1,x2;
-  char tecla1[10]="salir",tecla2[10];
-  FILE *pf,*cont;
-  usuario registro,CompReg[5];
+  //VARIABLES QUE VAMOS A UTILIZAR POSTERIORMENTE
+	  tiempo HoraActual;//Almacena la hora del sistema
+	  int op1=0,op2=0,op3=0,op4=0,//Operadores que utilizamos en bucles
+	  	  ContReg=0,i,x1,x2,//Se utilizan en condicionales para el registro
+		  DiaActual=0;//Almacena numericamente el dia del sistema 
+	  char tecla1[10]="salir",tecla2[10];//Bucle global del programa
+	  FILE *pf,*cont;//Punteros que apuntan a los ficheros donde guardamos los datos de los registrados
+	  usuario registro,CompReg[5];//Necesarios para registrarse
+  
   do{
   printf("\tDispone de una cuenta CasTV? \n");
   printf("\tPulse 1 si ya esta registrado: \n");
@@ -120,7 +155,12 @@ do{
 		 scanf("%d",&op2);
 		
 		 switch(op2){
-			    case 1://El usuario elige un apartado del menú
+			    case 1:
+			    	TomarTiempo(DiaActual,HoraActual);//Comprobacion de que los datos se almacenan
+					printf("%d \n",DiaActual);
+   					printf("%d \n",HoraActual.hora);
+  					printf("%d \n",HoraActual.min);
+					//El usuario elige un apartado del menú
 			    	//Muestra la emision en directo de los canales TDT
 			    	//Aqui iria un menu para elegir el programa
 			      break;
@@ -145,6 +185,7 @@ do{
 		scanf("%d",&op3);	
 		switch(op3){
 			case 1://Registro
+				 pf = fopen("registro.txt", "r"); 
 			  	 if (pf==NULL){
 			                printf ("Error abriendo el fichero");
 			                return -1;
@@ -153,37 +194,36 @@ do{
 		   			cont = fopen("contador.txt", "r");
 		   			fscanf(cont,"%d",&ContReg);
 		   			fclose(cont);
-		   				pf = fopen("registro.txt", "r"); 
 							for (i=0;i<ContReg;i++)
 		    	 				fscanf(pf, "%[^;];%[^\n]\n", CompReg[i].nombre, CompReg[i].password);
-	    	 			fclose(pf);
-	    	 		 x2=1;
-					 while(x2){
-					 i=0;
-					 printf("Ingrese nombre de usuario:");
-				     scanf("%s",registro.nombre);
-				     	 do{
-							 x1=strcmp(registro.nombre,CompReg[i].nombre);
-					  		 i++;
-					  		 if(x1==0)
-					  			 printf("No pueden existir dos usuarios con el mismo nombre, pruebe con otro \n");	 
-					  		 if(i>5){
-						  		 x1=0;
-						  		 x2=0;
-							 }
-					  	 }while(x1!=0);	
-					 }
-				 }
-				     printf("Ingrese clave: ");
-				     scanf("%s",registro.password); 
-				     printf("Introduzca su DNI para verificar su identidad en caso de extraviar su contrasena: ");
-				     scanf("%s",registro.DNI);
-				    	 ContReg++;
+	    	 		fclose(pf);
+	    	
+				    ContReg++;
 						 if(ContReg>5){
-						     printf("Lo sentimos ha alcanzado el numero maximo de registros. Solo puede ver el la guia televisiva. \n");
 						     ContReg=5;
+						     printf("Lo sentimos se ha alcanzado el numero maximo de registros (%d). Solo puede ver el la guia televisiva.\n",ContReg);
 						 }
 						 else {
+						 	 x2=1;
+							 while(x2){
+								 i=0;
+								 printf("Ingrese nombre de usuario:");
+				   				 scanf("%s",registro.nombre);
+				    		 	 do{
+									 x1=strcmp(registro.nombre,CompReg[i].nombre);
+					  		 		 i++;
+					  		 		 if(x1==0)
+					  					 printf("No pueden existir dos usuarios con el mismo nombre, pruebe con otro \n");	 
+					  		 			 if(i>5){
+						  		 		 x1=0;
+						  		 		 x2=0;
+							 			 }
+					  	 		}while(x1!=0);
+							}	
+						 	 printf("Ingrese clave: ");
+				     		 scanf("%s",registro.password); 
+				     		 printf("Introduzca su DNI para verificar su identidad en caso de extraviar su contrasena: ");
+				   			 scanf("%s",registro.DNI);
 							 pf = fopen("registro.txt", "a"); 
 						  	 fprintf(pf, "%s;%s;%s\n",registro.nombre, registro.password, registro.DNI);
 						  	 fclose(pf);
@@ -195,6 +235,7 @@ do{
 		   			 	 cont = fopen("contador.txt", "w");
 						 fprintf(cont, "%d",ContReg);
 						 fclose(cont);
+					}
 			break;
 			case 2://Guia televisiva
 				printf("si esta registrado y quiere acceder a los servivios completos pulse 1, si no pulse cualquier valor para finalizar el programa \n");
