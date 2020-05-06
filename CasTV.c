@@ -36,7 +36,7 @@ typedef struct{//Estructura de registro de usuario
 }usuario;
 
 typedef struct{
-    int hora, min;
+    char hora, min;
 }tiempo;
  
 typedef struct{

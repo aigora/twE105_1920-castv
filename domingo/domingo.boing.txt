@@ -25,5 +25,3 @@ Doraemon;20:40;21:25
 Los Thundermans;21:25;22:15
 Dragon ball;22:15;23:00
 Teen Titans Go;23:00;00:00
-
-

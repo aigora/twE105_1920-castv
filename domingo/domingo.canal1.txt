@@ -15,5 +15,3 @@ Aqui la tierra;20:30;21:00
 Telediario 2 Fin de semana;21:00;21:52
 El Tiempo;21:52;22:00
 The equializer: El Protector;22:00;00:00
-
-

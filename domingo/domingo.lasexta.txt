@@ -1,4 +1,4 @@
-La Sexta Noche;00:00;02:30;El programa cuenta con entrevistas a Jordi Évole, Xavier Sardá, Miguel Ángel Muñoz, Mongolia y Marta Sánchez. Además, el espacio ofrece las últimas noticias sobre el desarrollo del coronavirus en España.
+LaSextaNoche;00:00;02:30;El programa cuenta con entrevistas a Jordi Évole, Xavier Sardá, Miguel Ángel Muñoz, Mongolia y Marta Sánchez. Además, el espacio ofrece las últimas noticias sobre el desarrollo del coronavirus en España.
 World poker tour;02:30;03:00;Gira mundial donde se verán las caras los mejores jugadores del mundo, famosos y personas de toda índole. Uno de los atractivos del Word Poker Tour será la visita a los lugares más exóticos del planeta
 Teletienda;03:00;06:00;Catalago de productos desde casa.
 Minutos musicales;06:00;08:20;Música en directo interpretada por artistas de primer nivel. Un espacio pensado y diseñado para los amantes de la música...
