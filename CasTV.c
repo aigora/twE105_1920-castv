@@ -37,6 +37,8 @@ typedef struct{//Estructura dia
 //dia[4]= Boing
 //dia[5]= La Sexta
 
+
+
 int ingreso(usuario nombre){//Función ingreso
      FILE *pf,*cont;
 	 int i,ContReg,x=1,intentos=0,y;
