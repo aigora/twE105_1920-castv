@@ -167,7 +167,7 @@ int main (){//Programa principal
 	  
 	  dia L[6], M[6], X[6], J[6], V[6], S[6], D[6];//Variables en las que se almacenarán los programas de cada día
 	  
-	  int op1=0, op2=0, op3=0, op4=0,//Operadores que utilizamos en bucles
+	  int op1=0, op2=0, op3=0, op4=0,op5=0,//Operadores que utilizamos en bucles
 	  	  ContReg=0, i, x1, x2,//Se utilizan en condicionales para el registro
 		  DiaActual=0,//Almacena numericamente el dia del sistema 
 		  NL[6], NM[6], NX[6], NJ[6], NV[6], NS[6], ND[6];//Numero de programas que tiene cada canal en cada dia
@@ -222,13 +222,25 @@ do{
 			    	//Aqui iria un menu para elegir el programa
 			      break;
 			    case 2:
-			    	printf("Estas son las peliculas por tematicas disponibles: \n");
-			    	//Aqui metemos abrimos ficheros y esas cosas para printear
-			    	printf("Desea buscar alguna pelicula en concreto? Pulse 1 \n");
-			    	printf("Desea ampliar su catalogo? Pulse 2 \n");
-			    	//Muestra el catálogo de películas entero con posibilidad de eleccion autónoma
-			    	//Estarán sorteadas por temáticas
+			    	printf("si desea ver las peliculas disponibles pulse 1, en caso de las series pulse 2");
+			    	scanf("%d",&op5);
+			    	switch(op5){
+			    		case 1:
+			    	       printf("Estas son las peliculas por tematicas disponibles: \n");
+			    	       //Aqui metemos abrimos ficheros y esas cosas para printear
+			    	       printf("Desea buscar alguna pelicula en concreto? Pulse 1 \n");
+			    	       printf("Desea ampliar su catalogo? Pulse 2 \n");
+			    	       //Muestra el catálogo de películas entero con posibilidad de eleccion autónoma
+			    	       //Estarán sorteadas por temáticas
+			    	       break;
+			    	   case 2:
+					       printf("Estas son las series disponibles");
+					       //abriremos un fichero con series
+						   break;
+					}
 			      break;
+			    	
+			      
 			    case 3:
 			        //Aqui se relizará un filtrado de de gustos para mejor la busqueda y sugerencia
 	        	break;
