@@ -163,8 +163,8 @@ int main (){//Programa principal
 	  int op1=0, op2=0, op3=0, op4=0,//Operadores que utilizamos en bucles
 	  	  ContReg=0, i, x1, x2,//Se utilizan en condicionales para el registro
 		  DiaActual=0,//Almacena numericamente el dia del sistema 
-		  NL[6], NM[6], NX[6], NJ[6], NV[6], NS[6], ND[6],//Numero de programas que tiene cada canal en cada dia
-		  k;
+		  NL[6], NM[6], NX[6], NJ[6], NV[6], NS[6], ND[6];//Numero de programas que tiene cada canal en cada dia
+		
 		  
 	  char tecla1[10]="salir", tecla2[10];//Bucle global del programa
 	  
@@ -172,30 +172,7 @@ int main (){//Programa principal
 	  
 	  usuario registro, CompReg[5];//Necesarios para registrarse
 
-	ProgramacionCompleta("lunes",L,NL);
-	ProgramacionCompleta("martes",M,NM);
-	ProgramacionCompleta("miercoles",X,NX);
-	ProgramacionCompleta("jueves",J,NJ);
-	ProgramacionCompleta("viernes",V,NV);
-	ProgramacionCompleta("sabado",S,NS);
-	ProgramacionCompleta("domingo",D,ND);
 
-	printf("La una \n");
-	printf("%d \n",NL[0]);
-	printf("%d \n",NM[0]);
-	printf("%d \n",NX[0]);
-	printf("%d \n",NJ[0]);
-	printf("%d \n",NV[0]);
-	printf("%d \n",NS[0]);
-	printf("%d \n",ND[0]);
-
-	for (k = 0; k < NL[0] ; k++)
-    printf("%s\n %s:%s  %s:%s \n",
-       L[0].c[k].titulo,
-	   L[0].c[k].ti.hora,
-       L[0].c[k].ti.min,
-	   L[0].c[k].tf.hora,
-       L[0].c[k].tf.min );
        
        
   
