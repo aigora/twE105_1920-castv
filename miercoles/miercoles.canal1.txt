@@ -15,4 +15,4 @@ Acarias 38;17:50;18:50
 España directo;18:50;20:30
 Aqui la tierra;20:30;21:00
 Telediario 2;21:00;22:30
-Al filo del mañana;22:30
+Al filo del mañana;22:30;00:00

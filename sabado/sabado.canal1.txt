@@ -13,4 +13,4 @@ Don Jose, Pepe y Pepito;19:20;21:00
 Telediario 2 Fin de semana;21:00;21:52
 El tiempo;21:52;22:00
 Informe Semanal;22:00;22:30
-Tierra Prometida;22:30:00:00
+Tierra Prometida;22:30;00:00

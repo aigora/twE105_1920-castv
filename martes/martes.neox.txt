@@ -8,4 +8,4 @@ Modern Family;16:30;18:00
 Big Bang;18:00;20:00
 Brooklyn Nine-Nine;20:00;21:30
 Los simpson;21:30;22:00
-Pelicula;22:00;00:00;Batman
+Pelicula:Batman;22:00;00:00

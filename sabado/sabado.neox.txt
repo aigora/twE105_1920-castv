@@ -1,8 +1,8 @@
-Pelicula;00:00;02:30;Deadpool
+Pelicula:Deadpool;00:00;02:30
 Minutos musicales;02:30;07:00
 Neox Kidz;07:00;10:00
 El principe de Bel-Air;10:00;13:30
 Los Simpson;13:30;15:30
-Pelicula;15:30;18:00;Titanic
-Pelicula;18:00;21:00;Avatar
+Pelicula:Titanic;15:30;18:00
+Pelicula:Star wars;18:00;21:00
 SWAT;21:00;00:00

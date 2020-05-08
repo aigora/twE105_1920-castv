@@ -9,4 +9,4 @@ Big Bang;16:30;18:30
 Los Goldberg;18:30;19:30
 Los simpson;19:30;21:30
 Dos hombres y medio;21:00;22:00
-Pelicula;22:00;00:00;Solo en casa
+Pelicula:Solo en casa;22:00;00:00

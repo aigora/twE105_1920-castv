@@ -17,4 +17,4 @@ Aqui la tierra;20:30;21:00
 Telediario 2;21:00;22:05
 La paisana;22:05;22:55
 El paisano;22:55;23:45
-Entre ovejas;23:45;00:00 
+Entre ovejas;23:45;00:00

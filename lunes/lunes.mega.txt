@@ -7,6 +7,6 @@ Los restauradores;13:00;15:00
 Mountain men;15:00;16:30
 El precio de la historia;16:30;18:00
 Cazatesoros;18:00;19:35
-Quien da mas?;19:35;21:00
+Quien da mas;19:35;21:00
 Cronicas carnivoras;21:00;22:30
 Forjado a fuego;22:30;00:00
