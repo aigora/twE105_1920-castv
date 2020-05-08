@@ -2,26 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
-
-void EscribeNombre(){//Título 
-    printf("        CCCCCCCCCCCCC                               TTTTTTTTTTTTTTTTTTTTTTT   \n");
-    printf("     CCC::::::::::::C                               T:::::::::::::::::::::T \n");
-    printf("   CC:::::::::::::::C                               T:::::::::::::::::::::T\n");
-    printf("  C:::::CCCCCCCC::::C                               T:::::TT:::::::TT:::::T\n");
-    printf(" C:::::C       CCCCCC  aaaaaaaaaaaaa      ssssssssssTTTTTT  T:::::T  TTTTTTvvvvvvv           vvvvvvv\n");
-    printf("C:::::C                a::::::::::::a   ss::::::::::s       T:::::T         v:::::v         v:::::v\n");
-    printf("C:::::C                aaaaaaaaa:::::ass:::::::::::::s      T:::::T          v:::::v       v:::::v\n");
-    printf("C:::::C                         a::::as::::::ssss:::::s     T:::::T           v:::::v     v:::::v\n");
-    printf("C:::::C                  aaaaaaa:::::a s:::::s  ssssss      T:::::T            v:::::v   v:::::v\n");
-    printf("C:::::C                aa::::::::::::a   s::::::s           T:::::T             v:::::v v:::::v\n");
-    printf("C:::::C               a::::aaaa::::::a      s::::::s        T:::::T              v:::::v:::::v\n");
-    printf(" C:::::C       CCCCCCa::::a    a:::::assssss   s:::::s      T:::::T               v:::::::::v\n");
-    printf("  C:::::CCCCCCCC::::Ca::::a    a:::::as:::::ssss::::::s   TT:::::::TT              v:::::::v\n");
-    printf("   CC:::::::::::::::Ca:::::aaaa::::::as::::::::::::::s    T:::::::::T               v:::::v\n");
-    printf("     CCC::::::::::::C a::::::::::aa:::as:::::::::::ss     T:::::::::T                v:::v \n");
-    printf("        CCCCCCCCCCCCC  aaaaaaaaaa  aaaa sssssssssss       TTTTTTTTTTT                 vvv\n");
-	printf("\n\n\n");
-}
+#include "lib.h"
 
 typedef struct{//Estructura auxiliar para la cuenta bancaria
 	char cuenta;
@@ -35,19 +16,26 @@ typedef struct{//Estructura de registro de usuario
 	CuentaBanco x;
 }usuario;
 
-typedef struct{
-    char hora, min;
+typedef struct{//Estructura tiempo
+    char hora[3], min[3];
 }tiempo;
- 
-typedef struct{
+
+typedef struct{//Estructura canal
     tiempo ti, tf;
     char titulo[60];
     char descripcion[300];
 }canal;
 
-typedef struct{
-    canal c1[30], c2[30], c3[30], c4[30], c5[30];
+typedef struct{//Estructura dia
+    canal c[30];
 }dia;
+
+//dia[0]= Canal 1
+//dia[1]= Neox
+//dia[2]= Mega
+//dia[3]= Discovery Max
+//dia[4]= Boing
+//dia[5]= La Sexta
 
 int ingreso(usuario nombre){//Función ingreso
      FILE *pf,*cont;
@@ -104,16 +92,112 @@ int ingreso(usuario nombre){//Función ingreso
 			}
 }  
 
+int MetePrograma(char *day, const char *NombreCanal, dia *d[], int e){//Función para traspasar datos de fichero a variables
+  FILE *pf;
+  int i,nLineas=1;
+  char x, NombreRuta[35];
+  
+  strcpy(NombreRuta,day);
+  strcat(NombreRuta,NombreCanal);//Creo el nombre de la ruta
+  printf("%s \n",NombreRuta);
+  
+  pf = fopen(NombreRuta,"r");
+  if (pf==NULL){
+    printf ("Error abriendo el fichero");
+    return -1;
+  }
+  else{ 
+    while (fscanf(pf, "%c", &x) != EOF){
+      if (x == '\n')
+    ++nLineas;
+  }
+    fclose(pf);
+printf ("%d \n",nLineas);
+    pf = fopen(NombreRuta,"r");
+    for(i=0;i<nLineas;i++){
+      fscanf(pf, "%[^;];%[^:]:%[^;];%[^:]:%3[^\n]",// Hay que limitar el número de caracteres que se lee con [^\n]
+         d[e]->c[i].titulo,
+         d[e]->c[i].ti.hora,
+         d[e]->c[i].ti.min,
+         d[e]->c[i].tf.hora,
+         d[e]->c[i].tf.min);
+         printf("%s	",d[e]->c[i].titulo);
+         printf("%s	",d[e]->c[i].ti.hora);
+         printf("%s	",d[e]->c[i].ti.min);
+         printf("%s	",d[e]->c[i].tf.hora);
+         printf("%s	",d[e]->c[i].tf.min);
+    }
+    printf("\n");
+    return nLineas;
+    fclose(pf);            
+  }
+                
+}
+
+void ProgramacionCompleta(const char *NombreDia, dia c[], int Lineas[]){//Funcion para meter los datos de un dia completo
+	char day[20];
+	int i=0;
+	
+	strcpy(day,NombreDia); //Realizamos concatenaciones para crear el nombre del fichero y carpeta correspondiente
+	strcat(day,"/");
+	strcat(day,NombreDia);
+	printf("%s \n",day); 
+	
+		Lineas[i]=MetePrograma(day,".canal1.txt",&c,i);
+		i++;
+	
+
+		printf("%d \n",i);
+}
+
 int main (){//Programa principal
-  EscribeNombre();
-  //VARIABLES QUE VAMOS A UTILIZAR POSTERIORMENTE
+
+  EscribeNombre(); 
+  
+  //VARIABLES QUE VAMOS A UTILIZAR POSTERIORMENTE//
+  
 	  tiempo HoraActual;//Almacena la hora del sistema
-	  int op1=0,op2=0,op3=0,op4=0,//Operadores que utilizamos en bucles
-	  	  ContReg=0,i,x1,x2,//Se utilizan en condicionales para el registro
-		  DiaActual=0;//Almacena numericamente el dia del sistema 
-	  char tecla1[10]="salir",tecla2[10];//Bucle global del programa
-	  FILE *pf,*cont;//Punteros que apuntan a los ficheros donde guardamos los datos de los registrados
-	  usuario registro,CompReg[5];//Necesarios para registrarse
+	  
+	  dia L[6], M[6], X[6], J[6], V[6], S[6], D[6];//Variables en las que se almacenarán los programas de cada día
+	  
+	  int op1=0, op2=0, op3=0, op4=0,//Operadores que utilizamos en bucles
+	  	  ContReg=0, i, x1, x2,//Se utilizan en condicionales para el registro
+		  DiaActual=0,//Almacena numericamente el dia del sistema 
+		  NL[6], NM[6], NX[6], NJ[6], NV[6], NS[6], ND[6],//Numero de programas que tiene cada canal en cada dia
+		  k;
+		  
+	  char tecla1[10]="salir", tecla2[10];//Bucle global del programa
+	  
+	  FILE *pf, *cont;//Punteros que apuntan a los ficheros donde guardamos los datos de los registrados
+	  
+	  usuario registro, CompReg[5];//Necesarios para registrarse
+
+	ProgramacionCompleta("lunes",L,NL);
+	ProgramacionCompleta("martes",M,NM);
+	ProgramacionCompleta("miercoles",X,NX);
+	ProgramacionCompleta("jueves",J,NJ);
+	ProgramacionCompleta("viernes",V,NV);
+	ProgramacionCompleta("sabado",S,NS);
+	ProgramacionCompleta("domingo",D,ND);
+
+	printf("La una \n");
+	printf("%d \n",NL[0]);
+	printf("%d \n",NM[0]);
+	printf("%d \n",NX[0]);
+	printf("%d \n",NJ[0]);
+	printf("%d \n",NV[0]);
+	printf("%d \n",NS[0]);
+	printf("%d \n",ND[0]);
+
+	for (k = 0; k < NL[0] ; k++)
+    printf("%s\n %s:%s  %s:%s \n",
+       L[0].c[k].titulo,
+	   L[0].c[k].ti.hora,
+       L[0].c[k].ti.min,
+	   L[0].c[k].tf.hora,
+       L[0].c[k].tf.min );
+       
+       
   
   do{
   printf("\tDispone de una cuenta CasTV? \n");
@@ -146,8 +230,9 @@ do{
 		 switch(op2){
 			    case 1:
 						   DiaActual= tiempoLocal.tm_wday;
-						   HoraActual.hora= tiempoLocal.tm_hour;
-						   HoraActual.min= tiempoLocal.tm_min;
+						
+						   
+						   
 					//El usuario elige un apartado del menú
 			    	//Muestra la emision en directo de los canales TDT
 			    	//Aqui iria un menu para elegir el programa
@@ -169,7 +254,7 @@ do{
 		break;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	case 2://El usuario no está registrado
-		printf("Pulse 1 si quiere registrarse o 2 si quiere ver el catalogo: ");
+		printf("Pulse 1 si quiere registrarse o 2 si quiere ver la guía: ");
 		scanf("%d",&op3);	
 		switch(op3){
 			case 1://Registro
