@@ -37,7 +37,12 @@ typedef struct{//Estructura dia
 //dia[4]= Boing
 //dia[5]= La Sexta
 
-
+typedef struct{//Estructura película
+	char titulo[40];
+	tiempo t;
+	char tematica[15];
+	char year[5];
+}pelicula;
 
 int ingreso(usuario nombre){//Función ingreso
      FILE *pf,*cont;
