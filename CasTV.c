@@ -4,8 +4,6 @@
 #include <time.h>
 #include "lib.h"
 
-
-
 typedef struct{//Estructura auxiliar para la cuenta bancaria
 	char cuenta;
 	char pass;
