@@ -5,7 +5,7 @@ Minutos musicales;06:00;08:20;Música en directo interpretada por artistas de pr
 Historias con denominacion de origen;08:20;08:45;En Historias con denominación de origen, dirigido por el periodista Liborio García, todos los temas tienen cabida. El programa busca reflejar de manera positiva lo mejor de los espa?oles, de sus trabajos, de sus lugares de encuentro, de sus aficiones. 
 Bestial;08:45;09:35;Espacio que nos acerca al universo animal: desde las mascotas hasta los más exóticos, pasando por los animales de campo.
 Que me pasa, doctor?;09:35;10:40;Espacio de salud en el que los mejores especialistas del país atienden a las preguntas de los espectadores.
-Zapeando;010:40;11:50;Dani Mateo y su equipo amenizan cada tarde las sobremesas con Zapeando, el ojo crítico más divertido de la televisión.
+Zapeando;10:40;11:50;Dani Mateo y su equipo amenizan cada tarde las sobremesas con Zapeando, el ojo crítico más divertido de la televisión.
 Equipo de investigacion;11:50;14:00;La periodista Gloria Serra junto a su equipo profundiza en temas de actualidad,ofrece a los espectadores un análisis y una cobertura de la actualidad propios del Periodismo de Investigación. 
 La Sexta Noticias 1ª edición;14:00;15:00;Informativo que resume lo más destacado del día. Presentado por Elena Resano.
 La Sexta Deportes 1ª edicion;15:00;15:15;Los deportes de laSexta 2ª Edición corren a cargo de Maria Martinez.
