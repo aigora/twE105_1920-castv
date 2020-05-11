@@ -192,6 +192,74 @@ void ProgramacionCompleta(const char *NombreDia, dia c[], int Lineas[]){//Funcio
         Lineas[i]=MetePrograma2(day,".lasexta.txt",c,i);
 }
 
+int abrepeliculas(pelicula p[],const char *NombreRuta){//funcion que guarda las peliculas y las muestra por pantalla (solo el titulo)
+    FILE *pf;
+	int i, nLineas=1, e;
+	char x; 
+	
+	
+	    pf=fopen(NombreRuta,"r");
+	    if (pf==NULL){
+         printf ("Error abriendo el fichero");
+        return -1;
+         }
+    else{ 
+         while (fscanf(pf, "%c", &x) != EOF){
+         if (x == '\n'){
+		 
+         ++nLineas;}
+     	 }
+   		 fclose(pf);
+   		 
+	    pf=fopen(NombreRuta,"r");
+    	e = fscanf(pf, "%c", &x);
+	    
+	    if(e==-1){
+	    	printf("No hemos encontrado ninguna compra todavia\n\n");
+	    	fclose(pf);
+	    	nLineas=0;
+	    	return nLineas;
+		}   
+	    else {
+	    	 fclose(pf);
+	       	 pf = fopen(NombreRuta,"r");
+	   		 for(i=0;i<nLineas;i++){
+	      	 fscanf(pf, "%[^;];%[^:]:%[^;];%[^;];%5[^\n]\n", p[i].titulo,
+	        	 p[i].t.hora,
+	          	 p[i].t.min,
+	    	     p[i].tematica,
+		         p[i].year);
+	     printf("%d-Titulo: %s\n\n",i+1,p[i].titulo);
+	    	 }
+	    fclose(pf); 
+		return nLineas; 	
+		}            
+    }
+}
+
+void detallespeliculas(pelicula p[],int i){//Funcion que despliega los detalles de la pelicula
+	int precio;
+	precio=calculaprecio(p,i);
+	printf("\n%d-Titulo: %s\t\t\tDuracion: %sh y %smin\tTematica: %s\tPrecio: %d\tAno de estreno: %s\n\n",i,p[i-1].titulo, 
+		 p[i-1].t.hora,
+         p[i-1].t.min,
+         p[i-1].tematica,
+         precio,
+         p[i-1].year);
+}
+
+int calculaprecio(pelicula p[],int i){//Atribuye un precio por la temática de la película
+	int precio,x;
+		if(strcmp(p[i-1].tematica,"accion")==0) x=1; if(strcmp(p[i-1].tematica,"animacion")==0) x=2; if(strcmp(p[i-1].tematica,"aventuras")==0) x=1;
+		if(strcmp(p[i-1].tematica,"historico")==0) x=1; if(strcmp(p[i-1].tematica,"terror")==0) x=1;
+	
+	switch(x){
+		case 1: precio=20; break; case 2: precio=15; break; case 3: precio=12; break; case 4: precio=18; break; case 5: precio=13; break;
+		case 6: precio=20; break; case 7: precio=20; break; case 8: precio=20; break; case 9: precio=20; break; case 10: precio=20; break;
+	}
+return precio;
+}
+
 int main (){//Programa principal
 
   EscribeNombre(); 
@@ -200,20 +268,23 @@ int main (){//Programa principal
   
 	  tiempo HoraActual;//Almacena la hora del sistema
 	  
+	  pelicula Pcompradas[50], Ppago[50], Pgratis[150];//Las usaremos para almecenar las películas
+	  
 	  dia L[6], M[6], X[6], J[6], V[6], S[6], D[6];//Variables en las que se almacenarán los programas de cada día
 	  
 	  int op1=0, op2=0, op3=0, op4=0, op5=0, op6=0,//Operadores que utilizamos en bucles
 	  	  ContReg=0, i, x1, x2, x3,//Se utilizan en condicionales para el registro
 	  	  ContBanco=0,//Se utilizan en condicionales para el registro de la cuenta bancaria
 		  DiaActual=0,//Almacena numericamente el dia del sistema 
-		  NL[6], NM[6], NX[6], NJ[6], NV[6], NS[6], ND[6];//Numero de programas que tiene cada canal en cada dia
+		  NL[6], NM[6], NX[6], NJ[6], NV[6], NS[6], ND[6],//Numero de programas que tiene cada canal en cada dia
+		  NPC, NPP, NPG,//Almacenamos el numero de películas de cada tipo
+		  NumeroPelicula;
 		  
 	  char tecla1[10]="salir", tecla2[10],//Bucle global del programa
 	  	   RutaSaldo[30]={"saldo/"},//La utilizo para crear la ruta del fichero que alberga el saldo de cada usuario
 	  	   PeliculasCompradas[30];//Para guardar datos de un fichero
 	
-	  FILE *pf, *cont, *pfbanco, *contbanco, *saldobanco,//Punteros que apuntan a los ficheros donde guardamos los datos de los registrados
-	       *tpelis, *pelispago, *peliscompra;//Punteros que apuntan a los ficheros donde guardamos las películas
+	  FILE *pf, *cont, *pfbanco, *contbanco, *saldobanco;//Punteros que apuntan a los ficheros donde guardamos los datos de los registrados
 		   	        
 	  usuario registro, CompReg[5] , CompRegBanco[5];//Necesarios para registrarse
 
@@ -226,6 +297,7 @@ int main (){//Programa principal
         ProgramacionCompleta("viernes",V,NV);
         ProgramacionCompleta("sabado",S,NS);
         ProgramacionCompleta("domingo",D,ND);
+        
        	    
   do{
   printf("\tDispone de una cuenta CasTV? \n");
@@ -335,6 +407,20 @@ do{
 
 					  	 	    if (i<=ContBanco){
 					  	 	    	printf("Hemos encontrado su cuenta bancaria en el registro. \n\n");
+					  	 	    	
+					  	 	    	strcat(RutaSaldo,registro.nombre);
+							        strcat(RutaSaldo,".txt");
+					  	 	    	saldobanco = fopen(RutaSaldo, "r");
+							    	fscanf(saldobanco,"%d",&registro.x.saldo);
+							    	fclose(saldobanco);
+					  	 	    	printf("SALDO DE LA CUENTA: %d EUROS\n\n",registro.x.saldo);
+					  	 	    	
+									printf("Estas son las peliculas anteriormente compradas: \n");
+									NPC=abrepeliculas(Pcompradas,"peliculas/peliculascompradas.txt");
+									/*printf("Desea ver las caracteristicas de alguna pelicula? Introduzca su numero: ");
+									scanf("%d",&NumeroPelicula);
+									detallespeliculas(Pcompradas,NumeroPelicula);*/
+					  	 	    	
 								   	printf("/////////////////////////////////////////////////////////////////////////////////////////////////////////// \n");
 					  	 	    	printf("El precio de las peliculas: \n");
 					  	 	    	printf("\t Peliculas de accion: 20EUROS \n");
@@ -347,8 +433,9 @@ do{
 					  	 	    	printf("\t Peliculas musicales: 8EUROS \n");
 					  	 	    	printf("\t Peliculas de aventuras: 12EUROS \n");
 					  	 	    	printf("\t Peliculas romanticas: 22EUROS \n");
-					  	 	    	printf("/////////////////////////////////////////////////////////////////////////////////////////////////////////// \n");
-					  	 	    	printf("Listado de peliculas que puede comprar \n\n");
+					  	 	    	printf("/////////////////////////////////////////////////////////////////////////////////////////////////////////// \n\n");
+					  	 	    	printf("Listado de peliculas que puede comprar: \n\n");
+					  	 	    	NPP=abrepeliculas(Ppago,"peliculas/peliculaspago.txt");
 								}
 								else if (i>ContBanco){
 									ContBanco++;
