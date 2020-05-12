@@ -100,12 +100,12 @@ int ingreso(usuario nombre){//Función ingreso
 			}
 } 
 
-int MetePrograma(char *day, const char *NombreCanal, dia d[], int e){//Función para traspasar datos de fichero a variables
+int MetePrograma(char *Ruta, const char *NombreCanal, dia d[], int e){//Función para traspasar datos de fichero a variables
   FILE *pf;
   int i,nLineas=1;
-  char x, NombreRuta[35];
+  char x, NombreRuta[50];
   
-  strcpy(NombreRuta,day);
+  strcpy(NombreRuta,Ruta);
   strcat(NombreRuta,NombreCanal);//Creo el nombre de la ruta
   
   pf = fopen(NombreRuta,"r");
@@ -135,12 +135,12 @@ int MetePrograma(char *day, const char *NombreCanal, dia d[], int e){//Función p
                 
 }
 
-int MetePrograma2(char *day, const char *NombreCanal, dia d[], int e){//Provisional hasta que cambiemos los ficheros
+int MetePrograma2(char *Ruta, const char *NombreCanal, dia d[], int e){//Provisional hasta que cambiemos los ficheros
   FILE *pf;
   int i,nLineas=1;
   char x, NombreRuta[35];
   
-  strcpy(NombreRuta,day);
+  strcpy(NombreRuta,Ruta);
   strcat(NombreRuta,NombreCanal);//Creo el nombre de la ruta
   
   pf = fopen(NombreRuta,"r");
@@ -172,24 +172,25 @@ int MetePrograma2(char *day, const char *NombreCanal, dia d[], int e){//Provisio
 }
 
 void ProgramacionCompleta(const char *NombreDia, dia c[], int Lineas[]){//Funcion para meter los datos de un dia completo
-	char day[20];
+	char day[20],Ruta[50]={"programacion/"};
 	int i=0;
 	
 	strcpy(day,NombreDia); //Realizamos concatenaciones para crear el nombre del fichero y carpeta correspondiente
 	strcat(day,"/");
 	strcat(day,NombreDia);
+	strcat(Ruta,day);
 	
-		Lineas[i]=MetePrograma(day,".canal1.txt",c,i);
+		Lineas[i]=MetePrograma(Ruta,".canal1.txt",c,i);
 		i++;
-	    Lineas[i]=MetePrograma(day,".neox.txt",c,i);
+	    Lineas[i]=MetePrograma(Ruta,".neox.txt",c,i);
         i++;
-		Lineas[i]=MetePrograma(day,".mega.txt",c,i);
+		Lineas[i]=MetePrograma(Ruta,".mega.txt",c,i);
         i++;
-        Lineas[i]=MetePrograma2(day,".dmax.txt",c,i);
+        Lineas[i]=MetePrograma2(Ruta,".dmax.txt",c,i);
         i++;
-        Lineas[i]=MetePrograma(day,".boing.txt",c,i);
+        Lineas[i]=MetePrograma(Ruta,".boing.txt",c,i);
         i++;
-        Lineas[i]=MetePrograma2(day,".lasexta.txt",c,i);
+        Lineas[i]=MetePrograma2(Ruta,".lasexta.txt",c,i);
 }
 
 int abrepeliculas(pelicula p[],const char *NombreRuta){//funcion que guarda las peliculas y las muestra por pantalla (solo el titulo)
@@ -282,9 +283,9 @@ int main (){//Programa principal
 		  
 	  char tecla1[10]="salir", tecla2[10],//Bucle global del programa
 	  	   RutaSaldo[30]={"saldo/"},//La utilizo para crear la ruta del fichero que alberga el saldo de cada usuario
-	  	   PeliculasCompradas[30];//Para guardar datos de un fichero
+		   RutaPeliculasCompradas[60]={"peliculas/peliculascompradas/"};//Lo utilizo para crear la ruta de las peliculas compradas por cada usuario
 	
-	  FILE *pf, *cont, *pfbanco, *contbanco, *saldobanco;//Punteros que apuntan a los ficheros donde guardamos los datos de los registrados
+	  FILE *pf, *cont, *pfbanco, *contbanco, *saldobanco, *pelicomprada;//Punteros que apuntan a los ficheros donde guardamos los datos de los registrados
 		   	        
 	  usuario registro, CompReg[5] , CompRegBanco[5];//Necesarios para registrarse
 
@@ -356,41 +357,7 @@ do{
 					     	  	contbanco = fopen("contadorbanco.txt", "r");
 		   						fscanf(contbanco,"%d",&ContBanco);
 		   						fclose(contbanco);
-		   						
-		   					if(ContBanco==0){//Metemos esta primera condicion inicial para crear el fichero donde guardaremos las cuentas
-		   						
-		   						ContBanco++;
 
-		   						printf("No hemos encontrado coincidencia para su usuario. Por favor registrese a continuacion: \n");
-		   						pfbanco = fopen("registrobanco.txt", "r");
-		   							printf("ingrese su numero de cuenta: (alguno inventado) \n");
-		   							scanf("%s",registro.x.cuenta);
-		   							printf("ingrese la contrasena (4 digitos) \n");
-		   							scanf("%s",registro.x.pass);
-		   						
-		   						do{
-		   							registro.x.saldo=0;
-									printf("Ingrese el saldo de su cuenta (maximo inical 100 EUROS):");
-		   							scanf("%d",&registro.x.saldo);
-							    }while(registro.x.saldo>100);
-							    
-							    //creamos un fichero unicamente para el saldo de cada persona para poder extraer el dato como un entero
-							    
-							    strcat(RutaSaldo,registro.nombre);
-							    strcat(RutaSaldo,".txt");
-							    
-							    saldobanco = fopen(RutaSaldo, "w");
-							    fprintf(saldobanco,"%d",registro.x.saldo);
-							    fclose(saldobanco);
-									
-		   					    fprintf(pfbanco,"%s;%s;%s\n",registro.nombre, registro.x.cuenta, registro.x.pass);
-						  		fclose(pfbanco);
-						  		
-						  		contbanco = fopen("contadorbanco.txt", "w");
-						  		fprintf(contbanco,"%d",ContBanco);
-						  		fclose(contbanco);
-							   }
-							else {
 								pfbanco = fopen("registrobanco.txt", "r");
 								for (i=0;i<ContBanco;i++)
 		    	 					fscanf(pfbanco,"%[^;];%[^;];%5[^\n]\n", CompRegBanco[i].nombre, CompRegBanco[i].x.cuenta, CompRegBanco[i].x.pass);
@@ -413,10 +380,15 @@ do{
 					  	 	    	saldobanco = fopen(RutaSaldo, "r");
 							    	fscanf(saldobanco,"%d",&registro.x.saldo);
 							    	fclose(saldobanco);
-					  	 	    	printf("SALDO DE LA CUENTA: %d EUROS\n\n",registro.x.saldo);
+							    	printf("SALDO DE LA CUENTA: %d EUROS\n\n",registro.x.saldo);
 					  	 	    	
+					  	 	    	strcat(RutaPeliculasCompradas,registro.nombre);
+							    	strcat(RutaPeliculasCompradas,".txt");
+							    	pelicomprada = fopen(RutaPeliculasCompradas, "a");
+							    	fclose(pelicomprada);
 									printf("Estas son las peliculas anteriormente compradas: \n");
-									NPC=abrepeliculas(Pcompradas,"peliculas/peliculascompradas.txt");
+									
+									NPC=abrepeliculas(Pcompradas,RutaPeliculasCompradas);
 									/*printf("Desea ver las caracteristicas de alguna pelicula? Introduzca su numero: ");
 									scanf("%d",&NumeroPelicula);
 									detallespeliculas(Pcompradas,NumeroPelicula);*/
@@ -470,7 +442,6 @@ do{
 						  		fclose(contbanco);
 									
 								} 
-						    }
 						   break;
 					}
 			      break;
