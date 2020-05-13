@@ -264,10 +264,13 @@ return precio;
 int main (){//Programa principal
 
   EscribeNombre(); 
+   
   
   //VARIABLES QUE VAMOS A UTILIZAR POSTERIORMENTE//
   
 	  tiempo HoraActual;//Almacena la hora del sistema
+	 
+    
 	  
 	  pelicula Pcompradas[50], Ppago[50], Pgratis[150];//Las usaremos para almecenar las películas
 	  
@@ -279,10 +282,10 @@ int main (){//Programa principal
 		  DiaActual=0,//Almacena numericamente el dia del sistema 
 		  NL[6], NM[6], NX[6], NJ[6], NV[6], NS[6], ND[6],//Numero de programas que tiene cada canal en cada dia
 		  NPC, NPP, NPG,//Almacenamos el numero de películas de cada tipo
-		  NumeroPelicula;
+		  NumeroPelicula,x,y;
 		  
 	  char tecla1[10]="salir", tecla2[10],//Bucle global del programa
-	  	   RutaSaldo[30]={"saldo/"},//La utilizo para crear la ruta del fichero que alberga el saldo de cada usuario
+	  	   RutaSaldo[30]={"saldo/"},minuto[10],hora[10],//La utilizo para crear la ruta del fichero que alberga el saldo de cada usuario
 		   RutaPeliculasCompradas[60]={"peliculas/peliculascompradas/"};//Lo utilizo para crear la ruta de las peliculas compradas por cada usuario
 	
 	  FILE *pf, *cont, *pfbanco, *contbanco, *saldobanco, *pelicomprada;//Punteros que apuntan a los ficheros donde guardamos los datos de los registrados
@@ -330,7 +333,12 @@ do{
 		
 		 switch(op2){
 			    case 1:
-						   DiaActual= tiempoLocal.tm_wday;	   
+		DiaActual= tiempoLocal.tm_wday;	
+		x=tiempoLocal.tm_hour;
+		y=tiempoLocal.tm_min;
+		sprintf(hora,"%d",x);
+		sprintf(minuto,"%d",y);
+		printf("%s:%s",hora,minuto);	     
 					//El usuario elige un apartado del menú
 			    	//Muestra la emision en directo de los canales TDT
 			    	//Aqui iria un menu para elegir el programa
