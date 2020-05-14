@@ -94,7 +94,7 @@ int ingreso(usuario nombre){//Función ingreso
 				        strcpy(nombre.password,password.password);
 				   	    intentos++;
   					} while (strcmp(nombre.password,registro[i].password)!=0);			
-				printf("Enhorabuena ha pasado la prueba de registro, puede disfrutar de CasTv \n");
+				printf("\nEnhorabuena ha pasado la prueba de registro, puede disfrutar de CasTv \n\n");
 				return 0;	
 				}			
 			}
@@ -193,7 +193,7 @@ void ProgramacionCompleta(const char *NombreDia, dia c[], int Lineas[]){//Funcio
         Lineas[i]=MetePrograma2(Ruta,".lasexta.txt",c,i);
 }
 
-void programaciondia(int a[], dia b[]){
+void programaciondia(int a[], dia b[]){//Abre la programacion del dia escogido
      
 	int i=0,j=0;
 	printf("\n");	  
@@ -245,11 +245,11 @@ int abrepeliculas(pelicula p[],const char *NombreRuta){//funcion que guarda las 
    		 
 	    pf=fopen(NombreRuta,"r");
     	e = fscanf(pf, "%c", &x);
+	    nLineas--;
 	    
 	    if(e==-1){
 	    	printf("No hemos encontrado ninguna compra todavia\n\n");
 	    	fclose(pf);
-	    	nLineas=0;
 	    	return nLineas;
 		}   
 	    else {
@@ -282,14 +282,82 @@ void detallespeliculas(pelicula p[],int i){//Funcion que despliega los detalles 
 
 int calculaprecio(pelicula p[],int i){//Atribuye un precio por la temática de la película
 	int precio,x;
-		if(strcmp(p[i-1].tematica,"accion")==0) x=1; if(strcmp(p[i-1].tematica,"animacion")==0) x=2; if(strcmp(p[i-1].tematica,"aventuras")==0) x=1;
-		if(strcmp(p[i-1].tematica,"historico")==0) x=1; if(strcmp(p[i-1].tematica,"terror")==0) x=1;
+		if(strcmp(p[i-1].tematica,"accion")==0) x=1; if(strcmp(p[i-1].tematica,"animacion")==0) x=2; if(strcmp(p[i-1].tematica,"aventuras")==0) x=3;
+		if(strcmp(p[i-1].tematica,"historico")==0) x=4; if(strcmp(p[i-1].tematica,"terror")==0) x=5; if(strcmp(p[i-1].tematica,"ciencia ficcion")==0) x=6;
+		if(strcmp(p[i-1].tematica,"documental")==0) x=7; if(strcmp(p[i-1].tematica,"comedia")==0) x=8; if(strcmp(p[i-1].tematica,"musical")==0) x=9;
+		if(strcmp(p[i-1].tematica,"romantica")==0) x=10;
 	
 	switch(x){
 		case 1: precio=20; break; case 2: precio=15; break; case 3: precio=12; break; case 4: precio=18; break; case 5: precio=13; break;
-		case 6: precio=20; break; case 7: precio=20; break; case 8: precio=20; break; case 9: precio=20; break; case 10: precio=20; break;
+		case 6: precio=25; break; case 7: precio=12; break; case 8: precio=14; break; case 9: precio=8; break; case 10: precio=22; break;
 	}
 return precio;
+}
+
+void retrocederprograma(char tecla2[]){//Pregunta al usuario si quiere seguir usando el programa
+	printf("Desea salir del programa? teclee salir \n");
+	printf("Para volver al menu pulse cualquier tecla \n");
+    scanf("%s",tecla2);
+}
+
+void CopiarFichero(const char *Fichero1, const char *Fichero2){//Copia un fichero a otro
+		FILE *qf, *pf;
+		int e, data1=0;
+		char x;
+		
+		qf=fopen(Fichero2,"r");
+		e = fscanf(qf, "%x", &x);
+	    
+	    if(e==-1){
+	    	fclose(qf);	
+	    	pf = fopen(Fichero1,"r");
+	    	qf = fopen(Fichero2,"w");
+	    
+	   		while ((data1 = fgetc (pf)) != EOF) {
+       			fputc (data1,qf);
+    		}
+    		fclose(qf);
+    		fclose(pf);
+ 		}
+		else {
+			fclose(qf);
+		}
+}
+
+int CompraPelicula(pelicula p[],int i,const char *RutaPeliculasCompradas, const char *RutaPeliculasGratuitas,const char *nombre, int saldo){//Funcion para la compra de peliculas y guardarlas en su nuevo fichero
+	FILE *pf, *qf;
+	int precio;
+	char RutaSaldo[40]={"saldo/"};
+	
+	strcat(RutaSaldo,nombre);
+	strcat(RutaSaldo,".txt");
+	
+	printf("Usted ha comprado la siguiente pelicula: \n");
+	detallespeliculas(p,i);
+	precio=calculaprecio(p,i);
+	i--;
+	pf=fopen(RutaPeliculasCompradas,"a");
+	qf=fopen(RutaPeliculasGratuitas,"a");
+		fprintf(pf, "%s;%s:%s;%s;%s\n", p[i].titulo,
+	       	 p[i].t.hora,
+	       	 p[i].t.min,
+    	     p[i].tematica,
+	         p[i].year);
+     	fprintf(qf, "%s;%s:%s;%s;%s\n", p[i].titulo,
+	       	 p[i].t.hora,
+	       	 p[i].t.min,
+    	     p[i].tematica,
+		     p[i].year);
+	fclose(pf);
+	fclose(qf);
+	
+	saldo-=precio;
+	pf=fopen(RutaSaldo,"w");
+	fprintf(pf,"%d",saldo);
+	fclose(pf);
+	printf("Despues de realizar la compra le queda un total de: %d EUROS \n\n",saldo);
+	
+return saldo;
 }
 
 int main (){//Programa principal
@@ -297,33 +365,37 @@ int main (){//Programa principal
   EscribeNombre(); 
    
   
-  //VARIABLES QUE VAMOS A UTILIZAR POSTERIORMENTE//
+  ////////////////////////////////////////////VARIABLES QUE VAMOS A UTILIZAR POSTERIORMENTE////////////////////////////////////////////
   
 	  tiempo HoraActual;//Almacena la hora del sistema
-	 
-    
 	  
 	  pelicula Pcompradas[50], Ppago[50], Pgratis[150];//Las usaremos para almecenar las películas
 	  
 	  dia L[6], M[6], X[6], J[6], V[6], S[6], D[6];//Variables en las que se almacenarán los programas de cada día
 	  
 	  int op1=0, op2=0, op3=0, op4=0, op5=0, op6=0, op7=0, op8=0, op9=0, op10=0,//Operadores que utilizamos en bucles
-	  	  ContReg=0, i, x1, x2, x3,//Se utilizan en condicionales para el registro
+	  	  ContReg=0, i, i2, x1, x2, x3, x4,//Se utilizan en condicionales para el registro
 	  	  ContBanco=0,//Se utilizan en condicionales para el registro de la cuenta bancaria
 		  DiaActual=0,//Almacena numericamente el dia del sistema 
 		  NL[6], NM[6], NX[6], NJ[6], NV[6], NS[6], ND[6],//Numero de programas que tiene cada canal en cada dia
 		  NPC, NPP, NPG,//Almacenamos el numero de películas de cada tipo
-		  NumeroPelicula,
-		  x,y;
+		  precio,//Guarda el precio de las peliculas
+		  Hora,Min,//Almacena la hora del sistema como enteros
+		  y, intentos, ingresosaldo;//Bucles para meter dinero
 		  
 	  char tecla1[10]="salir", tecla2[10],//Bucle global del programa
 	  	   RutaSaldo[30]={"saldo/"},//La utilizo para crear la ruta del fichero que alberga el saldo de cada usuario
-		   MinutoSys[10],HoraSys[10],//Guarda la hora del sistema
-		   RutaPeliculasCompradas[60]={"peliculas/peliculascompradas/"};//Lo utilizo para crear la ruta de las peliculas compradas por cada usuario
-	
+		   MinutoSys[10],HoraSys[10],//Guarda la hora del sistema como cadena de caracteres
+		   RutaPeliculasCompradas[60]={"peliculas/peliculascompradas/"},//Lo utilizo para crear la ruta de las peliculas compradas por cada usuario
+		   RutaPeliculasGratuitas[60]={"peliculas/peliculas/"},//ruta de las peliculas totales que posee un usuario
+		   ContrasenaBanco[5], DNIusuario[10];//Proceso de verificacion de datos
+		   	
 	  FILE *pf, *cont, *pfbanco, *contbanco, *saldobanco, *pelicomprada;//Punteros que apuntan a los ficheros donde guardamos los datos de los registrados
 		   	        
 	  usuario registro, CompReg[5] , CompRegBanco[5];//Necesarios para registrarse
+	  
+	  
+ /////////////////////////////////////////////////////FIN DE LAS VARIABLES/////////////////////////////////////////////////////
 
 
         ProgramacionCompleta("lunes",L,NL);//Introducimos el dia para guaradar los datos en la varibale correspondiente al dia 
@@ -334,7 +406,6 @@ int main (){//Programa principal
         ProgramacionCompleta("viernes",V,NV);
         ProgramacionCompleta("sabado",S,NS);
         ProgramacionCompleta("domingo",D,ND);
-        
        	    
   do{
   printf("\tDispone de una cuenta CasTV? \n");
@@ -351,6 +422,16 @@ int main (){//Programa principal
 		  }while(op4);
 	  } 
  }while((op1!=1) && (op1!=2));
+ 
+  //CREO NOMBRES DE RUTAS QUE POSTERIORMENTE VOY A USAR
+ 		strcat(RutaPeliculasGratuitas,registro.nombre);
+		strcat(RutaPeliculasGratuitas,".txt");
+					
+		strcat(RutaSaldo,registro.nombre);
+		strcat(RutaSaldo,".txt");
+					
+		strcat(RutaPeliculasCompradas,registro.nombre);
+		strcat(RutaPeliculasCompradas,".txt");
 
 do{
 	  time_t t = time(NULL);//Se obtiene la hora del sistema por cada repeticion del bucle.
@@ -360,47 +441,54 @@ do{
  	case 1:
 	 	//Menú, si qiuere salir deberá escribir "salir"
 	 	 printf("  Menu \n");
-	 	 printf("  Guia televisiva: 1 \n");
-		 printf("  Catalogo: 2 \n");
-	     printf("  Recomendacion: 3 \n");
+	 	 printf("  \tGuia televisiva: 1 \n");
+		 printf("  \tCatalogo: 2 \n");
+	     printf("  \tRecomendacion: 3 \n");
 		 scanf("%d",&op2);
 		
 		 switch(op2){
 			    case 1:
 			    	
 					DiaActual= tiempoLocal.tm_wday;	
-					x=tiempoLocal.tm_hour;
-					y=tiempoLocal.tm_min;
-					sprintf(HoraSys,"%d",x);
-					sprintf(MinutoSys,"%d",y);
+					Hora=tiempoLocal.tm_hour;
+					Min=tiempoLocal.tm_min;
+					sprintf(HoraSys,"%d",Hora);
+					sprintf(MinutoSys,"%d",Min);
 					printf("%s:%s",HoraSys,MinutoSys);
 		
-			        printf("Para acceder a la programacion completa separada por dias pulse 1 \n");
+			        printf("\nPara acceder a la programacion completa separada por dias pulse 1 \n");
 			        printf("Para acceder a la programacion del dia actual pulse 2 \n");
-			        printf("Para acceder a la programacion en directo de hoy pulse 3 \n\n");
+			        printf("Para acceder a la programacion en directo pulse 3 \n\n");
 			    	     scanf("%d",&op10);
 			    	     switch(op10){
 			    	     	case 1:
-			    	     	printf(" \nTeclee el numero del dia que quiera ver la programacion: \n");
-			    	     	printf("1. lunes \n");
-			    	     	printf("2. martes \n");
-			    	     	printf("3. miercoles \n");
-			    	     	printf("4. jueves \n");
-			    	     	printf("5. viernes \n");
-			    	     	printf("6. sabado \n");
-			    	     	printf("7. domingo \n");
-			    	     	scanf("%d",&op9);
+				    	     	printf(" \nTeclee el numero del dia que quiera ver la programacion: \n");
+				    	     	printf("1. lunes \n");
+				    	     	printf("2. martes \n");
+				    	     	printf("3. miercoles \n");
+				    	     	printf("4. jueves \n");
+				    	     	printf("5. viernes \n");
+				    	     	printf("6. sabado \n");
+				    	     	printf("7. domingo \n");
+				    	     	scanf("%d",&op9);
 			    	     	
-							switch(op9){
-			    	     	    case 1: programaciondia(NL,L); break;
-			    	     	    case 2: programaciondia(NM,M); break;
-			    	     	    case 3: programaciondia(NX,X); break;
-			    	     	    case 4: programaciondia(NJ,J); break;
-			    	     	    case 5: programaciondia(NV,V); break; 
-			    	     	    case 6: programaciondia(NS,S); break;
-			    	     	    case 7: programaciondia(ND,D); break;
-								  	
-							 }
+								switch(op9){
+				    	     	    case 1: programaciondia(NL,L); break;
+				    	     	    case 2: programaciondia(NM,M); break;
+				    	     	    case 3: programaciondia(NX,X); break;
+				    	     	    case 4: programaciondia(NJ,J); break;
+				    	     	    case 5: programaciondia(NV,V); break; 
+				    	     	    case 6: programaciondia(NS,S); break;
+				    	     	    case 7: programaciondia(ND,D); break;
+			    	     		}
+			    	     		retrocederprograma(tecla2);
+			    	     	break;
+							case 2:
+								retrocederprograma(tecla2);
+							break;
+							case 3:
+								retrocederprograma(tecla2);
+							break;	
 						 }
 					//El usuario elige un apartado del menú
 			    	//Muestra la emision en directo de los canales TDT
@@ -410,17 +498,30 @@ do{
 			    	printf("Pulse 1 para acceder al contenido gratuito(peliculas y serie). Pulse 2 si quiere aumentar el contenido: ");
 			    	scanf("%d",&op5);
 			    	printf("\n");
+			    	
 			    	switch(op5){
 			    		case 1:
 			    		   
 			    	       printf("Estas son las peliculas por tematicas disponibles: \n");
-			    	       //Aqui metemos abrimos ficheros y esas cosas para printear
-			    	       printf("Desea buscar alguna pelicula en concreto? Pulse 1 \n");
-			    	       printf("Desea ampliar su catalogo? Pulse 2 \n");
+			          	   pelicomprada = fopen(RutaPeliculasGratuitas, "a");
+			          	   fclose(pelicomprada);
+			          	   CopiarFichero("peliculas/peliculas.txt",RutaPeliculasGratuitas);
 						   
+			    	       NPG=abrepeliculas(Pgratis,RutaPeliculasGratuitas);
+			    	       printf("Escriba el numero de una pelicula si quiere saber mas detalles.\n\n");
+					       do{
+				    	    	scanf("%d",&op7);
+					  			if(op7>NPG || op7<0)
+				 	    			printf("Esa pelicula no existe. Pruebe con otro numero");
+					  	 	    else if(op7!=0) detallespeliculas(Pgratis,op7);	
+					  	 	    printf("\n\nSi desea volver al menu escriba menu.\n");
+					  	 	    printf("Si desea acabar el programa escriba salir.\n");
+					  	 	    printf("Y cualquier otra tecla para obtener mas detalles de otra pelicula\n");
+					  	 	    scanf("%s",tecla2);
+						   }while(strcmp(tecla1,tecla2)<0);
 			    	       //Muestra el catálogo de películas entero con posibilidad de eleccion autónoma
 			    	       //Estarán sorteadas por temáticas
-			    	       break;
+			    	   break;
 			    	   case 2:
 					       printf("Ha accedido a la adquisicion de contenido de pago. Le recordamos que debe disponer de una cuenta de banco. \n");
 					       printf("Pasamos a verificar si su usuario ya dispone de ella... \n \n");
@@ -434,27 +535,40 @@ do{
 		    	 					fscanf(pfbanco,"%[^;];%[^;];%5[^\n]\n", CompRegBanco[i].nombre, CompRegBanco[i].x.cuenta, CompRegBanco[i].x.pass);
 	    	 					fclose(pfbanco);
 	    	 					
+	    	 					cont = fopen("contador.txt", "r");
+		   						fscanf(cont,"%d",&ContReg);
+		   						fclose(cont);
+	    	 					
+	    	 					pf = fopen("registro.txt", "r"); 
+								for (i=0;i<ContReg;i++)
+	    	 						fscanf(pf, "%[^;];%[^;];%[^\n]\n", CompReg[i].nombre, CompReg[i].password, CompReg[i].DNI);
+	     						fclose(pf);
+	    	 					
 								i=0; 	
 								do{
 									 x3=strcmp(registro.nombre,CompRegBanco[i].nombre);
 									 i++;
 									 if(i>ContBanco)
-									 x3=0;
-									 
+									 x3=0;	 
 					  	 	    }while(x3!=0);
+					  	 	    i2=0;
+					  	 	    do{
+									 x4=strcmp(registro.nombre,CompReg[i2].nombre);
+									 i2++;
+									 if(i2>ContReg)
+									 x4=0;	 
+					  	 	    }while(x4!=0);
+					  	 	    
+					  	 	    
 
 					  	 	    if (i<=ContBanco){
 					  	 	    	printf("Hemos encontrado su cuenta bancaria en el registro. \n\n");
 					  	 	    	
-					  	 	    	strcat(RutaSaldo,registro.nombre);
-							        strcat(RutaSaldo,".txt");
 					  	 	    	saldobanco = fopen(RutaSaldo, "r");
 							    	fscanf(saldobanco,"%d",&registro.x.saldo);
 							    	fclose(saldobanco);
 							    	printf("SALDO DE LA CUENTA: %d EUROS\n\n",registro.x.saldo);
 					  	 	    	
-					  	 	    	strcat(RutaPeliculasCompradas,registro.nombre);
-							    	strcat(RutaPeliculasCompradas,".txt");
 							    	pelicomprada = fopen(RutaPeliculasCompradas, "a");
 							    	fclose(pelicomprada);
 									printf("Estas son las peliculas anteriormente compradas: \n");
@@ -462,7 +576,7 @@ do{
 									NPC=abrepeliculas(Pcompradas,RutaPeliculasCompradas);
 									/*printf("Desea ver las caracteristicas de alguna pelicula? Introduzca su numero: ");
 									scanf("%d",&NumeroPelicula);
-									detallespeliculas(Pcompradas,NumeroPelicula);*/
+									detallespeliculas(Pgratis,NumeroPelicula);*/
 					  	 	    	
 								   	printf("/////////////////////////////////////////////////////////////////////////////////////////////////////////// \n");
 					  	 	    	printf("El precio de las peliculas: \n");
@@ -479,6 +593,93 @@ do{
 					  	 	    	printf("/////////////////////////////////////////////////////////////////////////////////////////////////////////// \n\n");
 					  	 	    	printf("Listado de peliculas que puede comprar: \n\n");
 					  	 	    	NPP=abrepeliculas(Ppago,"peliculas/peliculaspago.txt");
+					  	 	    	printf("Escriba el numero de una pelicula si quiere saber mas detalles, si quiere comprar alguna directamente escriba 0 \n\n");
+					  	 	    	do{
+					  	 	    		scanf("%d",&op7);
+					  	 	    		if(op7>NPP || op7<0)
+					  	 	    			printf("Esa pelicula no existe. Pruebe con otro numero o 0 si desea comprar alguna sin mirar sus detalles");
+					  	 	    		else if(op7!=0) detallespeliculas(Ppago,op7);	
+									}while(op7);
+										printf("Indique el numero de la pelicula que desea comprar: \n");
+										scanf("%d",&op7);
+									    precio=calculaprecio(Ppago,op7);
+									    
+									if(registro.x.saldo<precio){
+										printf("El saldo de su cuenta es insuficiente. No puede realizar la compra \n\n");
+										do{
+											printf("Si quiere probar con otra pelicula pulse 1\n");
+											printf("si quiere aumentar el saldo de su cuenta pulse 2\n");
+											printf("si quiere volver al menu pulse 3\n");
+											scanf("%d",&op8);
+											if(op8==1){
+												printf("Indique el numero de la pelicula que desea comprar: \n");
+												scanf("%d",&op7);
+									    		precio=calculaprecio(Ppago,op7);
+									    		if(registro.x.saldo>precio){
+													printf("Esta pelicula si esta a su alsance. Preparamos el proceso de compra \n\n");
+									    			registro.x.saldo=CompraPelicula(Ppago,op7,RutaPeliculasCompradas,RutaPeliculasGratuitas,registro.nombre,registro.x.saldo);
+												}
+											}
+											if(op8==2){
+												printf("Bienvenido al operador bancario: \n\n");
+												intentos=0;
+												do {
+				      							  if (intentos==3){
+				        				    	  printf("Las contrasenas no coinciden. Pulse 1 si desea recuperarla o cualquier tecla para acabar el programa. \n");
+				        						  scanf("%d",&y);
+				        	                    	if (y==1){
+				        		 						printf("Introduzca su DNI para verificar:");
+				        								scanf("%s",DNIusuario);
+				        								if(strcmp(DNIusuario,CompReg[i2-1].DNI)){
+				        									printf("Lo sentimos no podemos facilitarle la contrasena.");
+				        									exit(1);
+														}
+				        								else{
+				        									printf("La contrasena es: %s \n",CompRegBanco[i-1].x.pass);
+														}				        		
+													}
+													else exit(1);
+				       							}
+				     						   	if (intentos>3)
+				        						printf("Le recuerdo que se contrasena es %s \n",CompRegBanco[i-1].x.pass);
+				        							printf("Introduzca la contrasena de la cuenta bajo el nombre de %s: ",registro.nombre);
+				       								 scanf("%s",ContrasenaBanco);
+				   	   							 intentos++;
+  												} while (strcmp(ContrasenaBanco,CompRegBanco[i-1].x.pass)!=0);
+  												printf("\n");
+  												printf("INGRESO MAXIMO 50 EUROS \n");
+  												printf("INGRESO MINIMO 10 EUROS \n\n");
+  												printf("Su saldo actual es: %d EUROS. Indique la cantidad a incorporar a su saldo: ",registro.x.saldo);
+  												do {
+												  scanf("%d",&ingresosaldo);
+												  if(ingresosaldo>50 || ingresosaldo<10)
+												  	printf("Cantidad no valida");
+												}while(ingresosaldo>50 || ingresosaldo<10);
+												registro.x.saldo+=ingresosaldo;
+												
+					  	 	    				saldobanco = fopen(RutaSaldo, "w");
+							    				fprintf(saldobanco,"%d",registro.x.saldo);
+										    	fclose(saldobanco);
+										    	
+										    	printf("Su nuevo saldo es: %d EUROS \n\n",registro.x.saldo);
+										    	if(registro.x.saldo>25){
+										    		printf("Ya dispone de suficiente saldo. Podemos pasar a realizar la compra de la pelicula. \n\n");
+										    		printf("inserte el numero de la pelicula que quiere comprar: ");
+										    		scanf("%d",&op7);
+												    precio=calculaprecio(Ppago,op7);
+												    registro.x.saldo=CompraPelicula(Ppago,op7,RutaPeliculasCompradas,RutaPeliculasGratuitas,registro.nombre,registro.x.saldo);    		
+												}	
+										     }
+										     if(op8==3)
+										     	precio=-1;
+										}while(registro.x.saldo<precio);
+										retrocederprograma(tecla2);
+									}
+									else{
+										printf("Pasamos a realziar la compra de la pelicula... \n\n");
+										registro.x.saldo=CompraPelicula(Ppago,op7,RutaPeliculasCompradas,RutaPeliculasGratuitas,registro.nombre,registro.x.saldo);
+										retrocederprograma(tecla2);
+									}
 								}
 								else if (i>ContBanco){
 									ContBanco++;
@@ -498,9 +699,6 @@ do{
 							    
 							    //creamos un fichero unicamente para el saldo de cada persona para poder extraer el dato como un entero
 							    
-							    strcat(RutaSaldo,registro.nombre);
-							    strcat(RutaSaldo,".txt");
-							    
 							    saldobanco = fopen(RutaSaldo, "w");
 							    fprintf(saldobanco,"%d",registro.x.saldo);
 							    fclose(saldobanco);
@@ -512,22 +710,21 @@ do{
 						  		fprintf(contbanco,"%d",ContBanco);
 						  		fclose(contbanco);
 									
+								retrocederprograma(tecla2);
 								} 
-						   break;
+						break;
 					}
-			      break;
+			    break;
 			    	      
 			    case 3:
 			        //Aqui se relizará un filtrado de de gustos para mejor la busqueda y sugerencia
+			        retrocederprograma(tecla2);
 	        	break;
 			    }
-			    printf("Desea salir del programa? teclee salir \n");
-			    printf("Para volver al menu pulse cualquier tecla \n");
-			    scanf("%s",tecla2);
-		break;
+	break;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	case 2://El usuario no está registrado
-		printf("Pulse 1 si quiere registrarse o 2 si quiere ver la guía: ");
+		printf("Pulse 1 si quiere registrarse o 2 si quiere ver la guia: ");
 		scanf("%d",&op3);	
 		switch(op3){
 			case 1://Registro
@@ -547,7 +744,7 @@ do{
 				    ContReg++;
 						 if(ContReg>5){
 						     ContReg=5;
-						     printf("Lo sentimos se ha alcanzado el numero maximo de registros (%d). Solo puede ver el la guia televisiva.\n",ContReg);
+						     printf("\nLo sentimos se ha alcanzado el numero maximo de registros (%d). Solo puede ver la guia televisiva.\n",ContReg);
 						 }
 						 else {
 						 	 x2=1;
@@ -584,16 +781,8 @@ do{
 					}
 			break;
 			case 2://Guia televisiva
-				printf("si esta registrado y quiere acceder a los servivios completos pulse 1, si no pulse cualquier valor para finalizar el programa \n");
-				scanf("%d",&op1);
-				if(op1!=1) strcpy(tecla2,tecla1);
-				if(op1==1){
-	 				printf("Verifique que esta registrado, inserte su nombre de usuario: \n");
-		 			do{
-			  			scanf("%s",registro.nombre);
-			  			op4=ingreso(registro);
-		  			}while(op4);
-	 			} 
+					printf("bienvenido a la guia televisiva!! \n\n");
+					retrocederprograma(tecla2);
 			break;
 		}
 	break;	
