@@ -9,4 +9,4 @@ La casa de empeños;16:30;18:00
 Cazatesoros;18:00;19:35
 Quien da mas?;19:35;21:00
 Cronicas carnivoras;21:00;22:00
-Pelicula;22:00;00:00;Alien
+Pelicula:Alien;22:00;00:00

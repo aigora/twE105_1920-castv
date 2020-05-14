@@ -16,4 +16,4 @@ Estacion Sexta;20:45;21:00;Programa de información meteorológica presentado po
 La Sexta Deportes 2ª edicion;21:00;21:30;Los deportes de laSexta 2ª Edición corren a cargo de Maria Martinez.
 Lo de Évole;21:30;22:30;Jordi Évole entrevista en exclusiva a Joaquín Sabina dos meses después de la grave caída que sufrió el músico durante un concierto. El cantante, confinado en su casa de Madrid, explica los pormenores del accidente.
 El Objetivo;22:30;23:45;Labores de desinfección, montaje de hospitales de campaña… La UME desempeña un papel clave en esta crisis. El capitán de corbeta y jefe de la Oficina de Comunicación Pública, Aurelio Soto, en directo en el programa.
-La Sexta Columna;23:45;00:00.Programa presentado por Antonio García Ferreras que da una giro de 360º a la realidad y te acerca los temas más candentes de la actualidad.
+La Sexta Columna;23:45;00:00;Programa presentado por Antonio García Ferreras que da una giro de 360º a la realidad y te acerca los temas más candentes de la actualidad.

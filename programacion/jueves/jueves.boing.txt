@@ -7,7 +7,7 @@ Chowder;05:00;06:00
 Mr. Bean;06:00;07:00
 Tom y jerry;07:00;08:00
 Taffy;08:00;09:00
-Doraemon;09:00;10;10
+Doraemon;09:00;10:10
 Gumball;10:10;10:55
 Teen Titans Go;10:55;12:00
 Victor y Valentino;12:00;13:25

@@ -122,7 +122,7 @@ int MetePrograma(char *Ruta, const char *NombreCanal, dia d[], int e){//Función 
 
     pf = fopen(NombreRuta,"r");
     for(i=0;i<nLineas;i++){
-      fscanf(pf, "%[^;];%[^:]:%[^;];%[^:]:%3[^\n]",// Hay que limitar el número de caracteres que se lee con [^\n]
+      fscanf(pf, "%[^;];%[^:]:%[^;];%[^:]:%3[^\n]\n",// Hay que limitar el número de caracteres que se lee con [^\n]
          d[e].c[i].titulo,
          d[e].c[i].ti.hora,
          d[e].c[i].ti.min,
@@ -157,7 +157,7 @@ int MetePrograma2(char *Ruta, const char *NombreCanal, dia d[], int e){//Provisi
 
     pf = fopen(NombreRuta,"r");
     for(i=0;i<nLineas;i++){
-      fscanf(pf, "%[^;];%[^:]:%[^;];%[^:]:%[^;];300[^\n]",
+      fscanf(pf, "%[^;];%[^:]:%[^;];%[^:]:%[^;];%300[^\n]\n",
          d[e].c[i].titulo,
          d[e].c[i].ti.hora,
          d[e].c[i].ti.min,
@@ -191,6 +191,37 @@ void ProgramacionCompleta(const char *NombreDia, dia c[], int Lineas[]){//Funcio
         Lineas[i]=MetePrograma(Ruta,".boing.txt",c,i);
         i++;
         Lineas[i]=MetePrograma2(Ruta,".lasexta.txt",c,i);
+}
+
+void programaciondia(int a[], dia b[]){
+     
+	int i=0,j=0;
+	printf("\n");	  
+	for(j=0;j<6;j++){
+			if(j==0)
+             printf("La 1\n");
+        	if(j==1)
+		     printf("Neox\n");
+			if(j==2)	
+        	 printf("Mega\n");
+        	if(j==3)	
+			 printf("Discovery Max\n");
+			if(j==4)
+			 printf("Boing\n");
+		    if(j==5)
+			 printf("La sexta\n"); 
+			 	
+		 for(i=0;i<a[j];i++){
+         printf("\t\t%s %s:%s-%s:%s  \n ",b[j].c[i].titulo,
+         b[j].c[i].ti.hora,
+         b[j].c[i].ti.min,
+         b[j].c[i].tf.hora,
+         b[j].c[i].tf.min);
+         
+		}
+		printf("\n\n");	
+	}
+	
 }
 
 int abrepeliculas(pelicula p[],const char *NombreRuta){//funcion que guarda las peliculas y las muestra por pantalla (solo el titulo)
@@ -264,25 +295,30 @@ return precio;
 int main (){//Programa principal
 
   EscribeNombre(); 
+   
   
   //VARIABLES QUE VAMOS A UTILIZAR POSTERIORMENTE//
   
 	  tiempo HoraActual;//Almacena la hora del sistema
+	 
+    
 	  
 	  pelicula Pcompradas[50], Ppago[50], Pgratis[150];//Las usaremos para almecenar las películas
 	  
 	  dia L[6], M[6], X[6], J[6], V[6], S[6], D[6];//Variables en las que se almacenarán los programas de cada día
 	  
-	  int op1=0, op2=0, op3=0, op4=0, op5=0, op6=0,//Operadores que utilizamos en bucles
+	  int op1=0, op2=0, op3=0, op4=0, op5=0, op6=0, op7=0, op8=0, op9=0, op10=0,//Operadores que utilizamos en bucles
 	  	  ContReg=0, i, x1, x2, x3,//Se utilizan en condicionales para el registro
 	  	  ContBanco=0,//Se utilizan en condicionales para el registro de la cuenta bancaria
 		  DiaActual=0,//Almacena numericamente el dia del sistema 
 		  NL[6], NM[6], NX[6], NJ[6], NV[6], NS[6], ND[6],//Numero de programas que tiene cada canal en cada dia
 		  NPC, NPP, NPG,//Almacenamos el numero de películas de cada tipo
-		  NumeroPelicula;
+		  NumeroPelicula,
+		  x,y;
 		  
 	  char tecla1[10]="salir", tecla2[10],//Bucle global del programa
 	  	   RutaSaldo[30]={"saldo/"},//La utilizo para crear la ruta del fichero que alberga el saldo de cada usuario
+		   MinutoSys[10],HoraSys[10],//Guarda la hora del sistema
 		   RutaPeliculasCompradas[60]={"peliculas/peliculascompradas/"};//Lo utilizo para crear la ruta de las peliculas compradas por cada usuario
 	
 	  FILE *pf, *cont, *pfbanco, *contbanco, *saldobanco, *pelicomprada;//Punteros que apuntan a los ficheros donde guardamos los datos de los registrados
@@ -319,6 +355,7 @@ int main (){//Programa principal
 do{
 	  time_t t = time(NULL);//Se obtiene la hora del sistema por cada repeticion del bucle.
  	  struct tm tiempoLocal = *localtime(&t);
+ 	  
  switch(op1){//El usuario ya está registrado
  	case 1:
 	 	//Menú, si qiuere salir deberá escribir "salir"
@@ -330,7 +367,41 @@ do{
 		
 		 switch(op2){
 			    case 1:
-						   DiaActual= tiempoLocal.tm_wday;	   
+			    	
+					DiaActual= tiempoLocal.tm_wday;	
+					x=tiempoLocal.tm_hour;
+					y=tiempoLocal.tm_min;
+					sprintf(HoraSys,"%d",x);
+					sprintf(MinutoSys,"%d",y);
+					printf("%s:%s",HoraSys,MinutoSys);
+		
+			        printf("Para acceder a la programacion completa separada por dias pulse 1 \n");
+			        printf("Para acceder a la programacion del dia actual pulse 2 \n");
+			        printf("Para acceder a la programacion en directo de hoy pulse 3 \n\n");
+			    	     scanf("%d",&op10);
+			    	     switch(op10){
+			    	     	case 1:
+			    	     	printf(" \nTeclee el numero del dia que quiera ver la programacion: \n");
+			    	     	printf("1. lunes \n");
+			    	     	printf("2. martes \n");
+			    	     	printf("3. miercoles \n");
+			    	     	printf("4. jueves \n");
+			    	     	printf("5. viernes \n");
+			    	     	printf("6. sabado \n");
+			    	     	printf("7. domingo \n");
+			    	     	scanf("%d",&op9);
+			    	     	
+							switch(op9){
+			    	     	    case 1: programaciondia(NL,L); break;
+			    	     	    case 2: programaciondia(NM,M); break;
+			    	     	    case 3: programaciondia(NX,X); break;
+			    	     	    case 4: programaciondia(NJ,J); break;
+			    	     	    case 5: programaciondia(NV,V); break; 
+			    	     	    case 6: programaciondia(NS,S); break;
+			    	     	    case 7: programaciondia(ND,D); break;
+								  	
+							 }
+						 }
 					//El usuario elige un apartado del menú
 			    	//Muestra la emision en directo de los canales TDT
 			    	//Aqui iria un menu para elegir el programa

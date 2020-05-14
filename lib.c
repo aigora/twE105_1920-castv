@@ -19,3 +19,8 @@ void EscribeNombre(){//Título
     printf("        CCCCCCCCCCCCC  aaaaaaaaaa  aaaa sssssssssss       TTTTTTTTTTT                 vvv\n");
 	printf("\n\n\n");
 }
+
+
+	
+
+
