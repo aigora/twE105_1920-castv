@@ -717,7 +717,10 @@ do{
 			    break;
 			    	      
 			    case 3:
-			        //Aqui se relizará un filtrado de de gustos para mejor la busqueda y sugerencia
+			        printf("Bienvenido al apartado de sugerencias.");
+			        printf("Vamos a realizar un filtrado segun sus gustos para ahorrarle tiempo en la eleccion de su contenido multimedia.");
+			        printf("Bienvenido al apartado de sugerencias.");
+					//Aqui se relizará un filtrado de de gustos para mejor la busqueda y sugerencia
 			        retrocederprograma(tecla2);
 	        	break;
 			    }
