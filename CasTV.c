@@ -41,7 +41,7 @@ typedef struct{//Estructura dia
 typedef struct{//Estructura película
 	char titulo[40];
 	tiempo t;
-	char tematica[15];
+	char tematica[20];
 	char year[5];
 }pelicula;
 
@@ -194,6 +194,7 @@ void ProgramacionCompleta(const char *NombreDia, dia c[], int Lineas[]){//Funcio
 }
 
 void programaciondia(int a[], dia b[]){//Abre la programacion del dia escogido
+
      
 	int i=0,j=0;
 	printf("\n");	  
@@ -223,6 +224,8 @@ void programaciondia(int a[], dia b[]){//Abre la programacion del dia escogido
 	}
 	
 }
+
+
 
 int abrepeliculas(pelicula p[],const char *NombreRuta){//funcion que guarda las peliculas y las muestra por pantalla (solo el titulo)
     FILE *pf;
@@ -360,6 +363,35 @@ int CompraPelicula(pelicula p[],int i,const char *RutaPeliculasCompradas, const 
 return saldo;
 }
 
+void ProgramacionActual(dia d[],int *nd,char *HoraSys,char *MinutoSys){
+    int i,j=0;
+        printf("\n");
+        printf("Se esta emitiendo a las %s:%s en: \n\n", HoraSys, MinutoSys);
+        for(j=0;j<6;j++){
+            if(j==0)
+             printf("La 1\n");
+            if(j==1)
+             printf("Neox\n");
+            if(j==2)   
+             printf("Mega\n");
+            if(j==3)   
+             printf("Discovery Max\n");
+            if(j==4)
+             printf("Boing\n");
+            if(j==5)
+             printf("La sexta\n");
+            
+            for(i=0;i<nd[j];i++){
+                if(strcmp(d[j].c[i].ti.hora,HoraSys)<=0 && strcmp(d[j].c[i].tf.hora,HoraSys)>0){
+                    printf("\tPrograma actual---->\t");
+                    printf("%s \n",d[j].c[i].titulo);
+                    printf("\tSiguiente programa---->\t");
+                    printf("%s\tEmpieza a las %s:%s\n\n\n",d[j].c[i+1].titulo,d[j].c[i+1].ti.hora,d[j].c[i+1].ti.min);   
+                }       
+            }
+        }
+}
+
 int main (){//Programa principal
 
   EscribeNombre(); 
@@ -373,7 +405,7 @@ int main (){//Programa principal
 	  
 	  dia L[6], M[6], X[6], J[6], V[6], S[6], D[6];//Variables en las que se almacenarán los programas de cada día
 	  
-	  int op1=0, op2=0, op3=0, op4=0, op5=0, op6=0, op7=0, op8=0, op9=0, op10=0,//Operadores que utilizamos en bucles
+	  int op1=0, op2=0, op3=0, op4=0, op5=0, op6=0, op7=0, op8=0, op9=0, op10=0,j,//Operadores que utilizamos en bucles
 	  	  ContReg=0, i, i2, x1, x2, x3, x4,//Se utilizan en condicionales para el registro
 	  	  ContBanco=0,//Se utilizan en condicionales para el registro de la cuenta bancaria
 		  DiaActual=0,//Almacena numericamente el dia del sistema 
@@ -445,16 +477,17 @@ do{
 		 printf("  \tCatalogo: 2 \n");
 	     printf("  \tRecomendacion: 3 \n");
 		 scanf("%d",&op2);
-		
-		 switch(op2){
-			    case 1:
-			    	
-					DiaActual= tiempoLocal.tm_wday;	
+		 DiaActual= tiempoLocal.tm_wday;	
 					Hora=tiempoLocal.tm_hour;
 					Min=tiempoLocal.tm_min;
 					sprintf(HoraSys,"%d",Hora);
 					sprintf(MinutoSys,"%d",Min);
 					printf("%s:%s",HoraSys,MinutoSys);
+		
+		 switch(op2){
+			    case 1:
+			    	
+					
 		
 			        printf("\nPara acceder a la programacion completa separada por dias pulse 1 \n");
 			        printf("Para acceder a la programacion del dia actual pulse 2 \n");
@@ -484,9 +517,58 @@ do{
 			    	     		retrocederprograma(tecla2);
 			    	     	break;
 							case 2:
+								printf("Esta es la programacion del dia actual");
+								if(DiaActual==1){
+									programaciondia(NL,L);
+								}
+								else if(DiaActual==2){
+									programaciondia(NM,M);
+								}
+								else if(DiaActual==3){
+									programaciondia(NX,X);
+								}
+								else if(DiaActual==4){
+									programaciondia(NJ,J);
+								}
+								else if(DiaActual==5){
+									programaciondia(NV,V);
+								}
+								else if(DiaActual==6){
+									programaciondia(NS,S);
+								}
+								else if(DiaActual==0){
+									programaciondia(ND,D);
+								}
 								retrocederprograma(tecla2);
 							break;
 							case 3:
+								 printf("Programacion en directo por cada canal: \n\n");
+                               
+                                switch(DiaActual){
+                                    case 1:
+                                        ProgramacionActual(L,NL,HoraSys,MinutoSys);
+                                    break;
+                                    case 2:
+                                    	ProgramacionActual(M,NM,HoraSys,MinutoSys);
+                                    break;
+                                    case 3:
+                                    	ProgramacionActual(X,NX,HoraSys,MinutoSys);
+                                    break;
+                                    case 4:
+                                    	ProgramacionActual(J,NJ,HoraSys,MinutoSys);
+                                    break;
+                                    case 5:
+                                        ProgramacionActual(V,NV,HoraSys,MinutoSys);
+                                    break;
+                                    case 6:
+                                    	ProgramacionActual(S,NS,HoraSys,MinutoSys);
+                                    break;
+                                    case 0:
+                                    	ProgramacionActual(D,ND,HoraSys,MinutoSys);
+                                    break;
+						}
+							
+							
 								retrocederprograma(tecla2);
 							break;	
 						 }
