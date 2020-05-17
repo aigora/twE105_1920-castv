@@ -492,6 +492,12 @@ int main (){//Programa principal
         ProgramacionCompleta("viernes",V,NV);
         ProgramacionCompleta("sabado",S,NS);
         ProgramacionCompleta("domingo",D,ND);
+         DiaActual= tiempoLocal.tm_wday;	
+		Hora=tiempoLocal.tm_hour;
+		Min=tiempoLocal.tm_min;
+		sprintf(HoraSys,"%d",Hora);
+		sprintf(MinutoSys,"%d",Min);
+		printf("%s:%s",HoraSys,MinutoSys);
        	    
   do{
   printf("\tDispone de una cuenta CasTV? \n");
@@ -531,18 +537,12 @@ do{
 		 printf("  \tCatalogo: 2 \n");
 	     printf("  \tRecomendacion: 3 \n");
 		 scanf("%d",&op2);
-		 DiaActual= tiempoLocal.tm_wday;	
-					Hora=tiempoLocal.tm_hour;
-					Min=tiempoLocal.tm_min;
-					sprintf(HoraSys,"%d",Hora);
-					sprintf(MinutoSys,"%d",Min);
-					printf("%s:%s",HoraSys,MinutoSys);
-		
+		 
 		 switch(op2){
 			    case 1:
 			    	
 					
-		
+		            printf("¡Bienvenido a la guia televisiva!")
 			        printf("\nPara acceder a la programacion completa separada por dias pulse 1 \n");
 			        printf("Para acceder a la programacion del dia actual pulse 2 \n");
 			        printf("Para acceder a la programacion en directo pulse 3 \n\n");
@@ -956,11 +956,92 @@ do{
 			break;
 			case 2://Guia televisiva
 					printf("bienvenido a la guia televisiva!! \n\n");
+					printf("\nPara acceder a la programacion completa separada por dias pulse 1 \n");
+			        printf("Para acceder a la programacion del dia actual pulse 2 \n");
+			        printf("Para acceder a la programacion en directo pulse 3 \n\n");
+			    	     scanf("%d",&op10);
+			    	     switch(op10){
+			    	     	case 1:
+				    	     	printf(" \nTeclee el numero del dia que quiera ver la programacion: \n");
+				    	     	printf("1. lunes \n");
+				    	     	printf("2. martes \n");
+				    	     	printf("3. miercoles \n");
+				    	     	printf("4. jueves \n");
+				    	     	printf("5. viernes \n");
+				    	     	printf("6. sabado \n");
+				    	     	printf("7. domingo \n");
+				    	     	scanf("%d",&op9);
+			    	     	
+								switch(op9){
+				    	     	    case 1: programaciondia(NL,L); break;
+				    	     	    case 2: programaciondia(NM,M); break;
+				    	     	    case 3: programaciondia(NX,X); break;
+				    	     	    case 4: programaciondia(NJ,J); break;
+				    	     	    case 5: programaciondia(NV,V); break; 
+				    	     	    case 6: programaciondia(NS,S); break;
+				    	     	    case 7: programaciondia(ND,D); break;
+			    	     		}
+			    	     		retrocederprograma(tecla2);
+			    	     	break;
+							case 2:
+								printf("Esta es la programacion del dia actual");
+								if(DiaActual==1){
+									programaciondia(NL,L);
+								}
+								else if(DiaActual==2){
+									programaciondia(NM,M);
+								}
+								else if(DiaActual==3){
+									programaciondia(NX,X);
+								}
+								else if(DiaActual==4){
+									programaciondia(NJ,J);
+								}
+								else if(DiaActual==5){
+									programaciondia(NV,V);
+								}
+								else if(DiaActual==6){
+									programaciondia(NS,S);
+								}
+								else if(DiaActual==0){
+									programaciondia(ND,D);
+								}
+								retrocederprograma(tecla2);
+							break;
+							case 3:
+								 printf("Programacion en directo por cada canal: \n\n");
+                               
+                                switch(DiaActual){
+                                    case 1:
+                                        ProgramacionActual(L,NL,HoraSys,MinutoSys);
+                                    break;
+                                    case 2:
+                                    	ProgramacionActual(M,NM,HoraSys,MinutoSys);
+                                    break;
+                                    case 3:
+                                    	ProgramacionActual(X,NX,HoraSys,MinutoSys);
+                                    break;
+                                    case 4:
+                                    	ProgramacionActual(J,NJ,HoraSys,MinutoSys);
+                                    break;
+                                    case 5:
+                                        ProgramacionActual(V,NV,HoraSys,MinutoSys);
+                                    break;
+                                    case 6:
+                                    	ProgramacionActual(S,NS,HoraSys,MinutoSys);
+                                    break;
+                                    case 0:
+                                    	ProgramacionActual(D,ND,HoraSys,MinutoSys);
+                                    break;
+						}
+					
 					retrocederprograma(tecla2);
 			break;
 		}
-	break;	
-	}	
+ break;
+	}
+	break;
+}
 }while(strcmp(tecla1,tecla2));
 return 0;
 }
