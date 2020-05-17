@@ -1,5 +1,11 @@
 #include "lib.h"
 
+typedef struct{//Estrcura serie
+	char capitulo[12];
+	char titulo[50];
+	char descripcion[500];
+}serie;
+
 void EscribeNombre(){//Título 
     printf("        CCCCCCCCCCCCC                               TTTTTTTTTTTTTTTTTTTTTTT   \n");
     printf("     CCC::::::::::::C                               T:::::::::::::::::::::T \n");
@@ -20,6 +26,34 @@ void EscribeNombre(){//Título
 	printf("\n\n\n");
 }
 
+int abreSerie(serie s[],const char *RutaSerie){//Funcion que guarda la serie y la muestra por pantalla
+	FILE *pf;
+	int a,nLineas=1;
+	char x;
+	
+	 pf=fopen(RutaSerie,"r");
+	    if (pf==NULL){
+         printf ("Error abriendo el fichero");
+        return -1;}
+        
+    else{
+    	  while (fscanf(pf, "%c", &x) != EOF){
+         if (x == '\n'){
+		 
+         ++nLineas;}
+     	 }
+   		 fclose(pf);
+   		 pf=fopen(RutaSerie,"r");
+   		 printf("\tALERTAS DE SPOILERS!!!!!!!\n\n");
+	   		 for(a=0;a<2*nLineas;a++){
+	      		fscanf(pf, "%[^;];%[^;];%500[^\n]\n", s[a].capitulo,s[a].titulo,s[a].descripcion);
+	     		printf("\t%s: %s.\n\t%s\n\n",s[a].capitulo,s[a].titulo,s[a].descripcion);
+	    		a++;
+		 }
+	    fclose(pf); 
+		return nLineas; 	
+		}                 
+}
 
 	
 

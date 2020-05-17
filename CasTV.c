@@ -45,6 +45,12 @@ typedef struct{//Estructura película
 	char year[5];
 }pelicula;
 
+typedef struct{//Estrcura serie
+	char capitulo[12];
+	char titulo[50];
+	char descripcion[500];
+}serie;
+
 int ingreso(usuario nombre){//Función ingreso
      FILE *pf,*cont;
 	 int i,ContReg,x=1,intentos=0,y;
@@ -445,6 +451,8 @@ int SelectorTematica(int nLineas, pelicula Pgratis[]){//Funcion para realizar un
 return CoincidenciaTotal;
 }
 
+
+
 int main (){//Programa principal
 
   EscribeNombre(); 
@@ -458,7 +466,7 @@ int main (){//Programa principal
 	  
 	  dia L[6], M[6], X[6], J[6], V[6], S[6], D[6];//Variables en las que se almacenarán los programas de cada día
 	  
-	  int op1=0, op2=0, op3=0, op4=0, op5=0, op6=0, op7=0, op8=0, op9=0, op10=0, op11=0, //Operadores que utilizamos en bucles
+	  int op1=0, op2=0, op3=0, op4=0, op5=0, op6=0, op7=0, op8=0, op9=0, op10=0, op11=0, op12=0, //Operadores que utilizamos en bucles
 	  	  ContReg=0, i, i2, x1, x2, x3, x4,//Se utilizan en condicionales para el registro
 	  	  ContBanco=0,//Se utilizan en condicionales para el registro de la cuenta bancaria
 		  DiaActual=0,//Almacena numericamente el dia del sistema 
@@ -467,7 +475,8 @@ int main (){//Programa principal
 		  precio,//Guarda el precio de las peliculas
 		  Hora,Min,//Almacena la hora del sistema como enteros
 		  y, intentos, ingresosaldo,//Bucles para meter dinero
-		  CoincidenciaTematica; //Usados en el proceso de filtrado
+		  CoincidenciaTematica,//Usados en el proceso de filtrado
+		  temporada;//Para elegir la temporada de la serie 
 		  
 	  char tecla1[10]="salir", tecla2[10],//Bucle global del programa
 	  	   RutaSaldo[30]={"saldo/"},//La utilizo para crear la ruta del fichero que alberga el saldo de cada usuario
@@ -479,6 +488,8 @@ int main (){//Programa principal
 	  FILE *pf, *cont, *pfbanco, *contbanco, *saldobanco, *pelicomprada, *tema;//Punteros que apuntan a los ficheros donde guardamos los datos de los registrados
 		   	        
 	  usuario registro, CompReg[5] , CompRegBanco[5];//Necesarios para registrarse
+	  
+	  serie s1[11],s2[11],s3[11],s4[11],s5[11],s6[11],s7[11],s8[11];//Cada temporada de la serie
 	  
 	  
  /////////////////////////////////////////////////////FIN DE LAS VARIABLES/////////////////////////////////////////////////////
@@ -637,7 +648,15 @@ do{
 			    	printf("\n");
 			    	
 			    	switch(op5){
-			    		case 1:
+			    		case 1://Gratuito
+			    	
+						printf("Pulse 1 para acceder a las peliculas. Pulse 2 para acceder a la serie: ");
+			    		scanf("%d",&op12);
+			    		printf("\n");
+			    		   
+			    		switch(op12){
+			    			
+			    		case 1: //Películas gratuitas
 			    		   
 			    	       printf("Estas son las peliculas por tematicas disponibles: \n");
 			          	   pelicomprada = fopen(RutaPeliculasGratuitas, "a");
@@ -659,6 +678,36 @@ do{
 			    	       //Muestra el catálogo de películas entero con posibilidad de eleccion autónoma
 			    	       //Estarán sorteadas por temáticas
 			    	   break;
+			    	   
+			    	   case 2://serie
+			    	   printf("\tTenemos en exclusiva la exitosa serie Juego de Tronos\n\tElija que temporada quiere ver entre la 1 y la 8:	");
+			    	scanf("%d",&temporada);
+			    switch(temporada){
+			    	case 1:
+			    		abreSerie(s1,"juego de tronos/Temporada 1/1.txt");break;
+			    	case 2:
+			    		abreSerie(s2,"juego de tronos/Temporada 2/2.txt");break;
+			    	case 3:
+			    		abreSerie(s3,"juego de tronos/Temporada 3/3.txt");break;
+			    	case 4:
+			    		abreSerie(s4,"juego de tronos/Temporada 4/4.txt");break;
+			    	case 5:
+			    		abreSerie(s5,"juego de tronos/Temporada 5/5.txt");break;
+			    	case 6:
+			    		abreSerie(s6,"juego de tronos/Temporada 6/6.txt");break;
+			    	case 7:
+			    		abreSerie(s7,"juego de tronos/Temporada 7/7.txt");break;
+			    	case 8:
+			    		abreSerie(s8,"juego de tronos/Temporada 8/8.txt");break;
+				}
+				do{
+				printf("\n\nSi desea volver al menu pulse cualquier tecla.\n");
+				printf("Si desea acabar el programa escriba salir.\n");
+				scanf("%s",tecla2);
+				}while(strcmp(tecla1,tecla2)<0);
+					break;
+			    }
+			    	break;
 			    	   case 2:
 					       printf("Ha accedido a la adquisicion de contenido de pago. Le recordamos que debe disponer de una cuenta de banco. \n");
 					       printf("Pasamos a verificar si su usuario ya dispone de ella... \n \n");
