@@ -51,3 +51,7 @@ El corredor del laberinto;01:48;ciencia_ficcion;2015
 Blade Runner 2049;02:37;ciencia_ficcion;2018
 Berlin:sinfonia de una ciudad;01:02;documental;2002
 Apocalipsis:la Segunda Guerra Mundial;05:20;documental;2011
+Byzantium;01:53;ciencia_ficcion;2014
+El ADN de Tutankhamon;02:54;documental;2010
+El circulo;01:45;ciencia_ficcion;2017
+Deadpool.2;01:54;ciencia_ficcion;2018
