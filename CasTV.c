@@ -492,12 +492,7 @@ int main (){//Programa principal
         ProgramacionCompleta("viernes",V,NV);
         ProgramacionCompleta("sabado",S,NS);
         ProgramacionCompleta("domingo",D,ND);
-         DiaActual= tiempoLocal.tm_wday;	
-		Hora=tiempoLocal.tm_hour;
-		Min=tiempoLocal.tm_min;
-		sprintf(HoraSys,"%d",Hora);
-		sprintf(MinutoSys,"%d",Min);
-		printf("%s:%s",HoraSys,MinutoSys);
+        
        	    
   do{
   printf("\tDispone de una cuenta CasTV? \n");
@@ -528,6 +523,12 @@ int main (){//Programa principal
 do{
 	  time_t t = time(NULL);//Se obtiene la hora del sistema por cada repeticion del bucle.
  	  struct tm tiempoLocal = *localtime(&t);
+ 	   DiaActual= tiempoLocal.tm_wday;	
+		Hora=tiempoLocal.tm_hour;
+		Min=tiempoLocal.tm_min;
+		sprintf(HoraSys,"%d",Hora);
+		sprintf(MinutoSys,"%d",Min);
+		printf("%s:%s",HoraSys,MinutoSys);
  	  
  switch(op1){//El usuario ya está registrado
  	case 1:
@@ -542,7 +543,7 @@ do{
 			    case 1:
 			    	
 					
-		            printf("¡Bienvenido a la guia televisiva!")
+		            printf("¡Bienvenido a la guia televisiva!");
 			        printf("\nPara acceder a la programacion completa separada por dias pulse 1 \n");
 			        printf("Para acceder a la programacion del dia actual pulse 2 \n");
 			        printf("Para acceder a la programacion en directo pulse 3 \n\n");
@@ -898,6 +899,7 @@ do{
 	break;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	case 2://El usuario no está registrado
+	  
 		printf("Pulse 1 si quiere registrarse o 2 si quiere ver la guia: ");
 		scanf("%d",&op3);	
 		switch(op3){
