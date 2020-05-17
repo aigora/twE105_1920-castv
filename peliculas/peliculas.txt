@@ -9,8 +9,8 @@ Anibal;01:37;accion;2004
 Apocalypto;02:18;accion;2006
 La batalla del rio de la plata;01:59;accion;2007
 Ice age;01:18;animacion;2002
-Alladin;01:30;animaccion;2013
-Alicia en el pais de las maravillas;01:16;animaccion;2010
+Alladin;01:30;animacion;2013
+Alicia en el pais de las maravillas;01:16;animacion;2010
 Alienigenas mutantes;01:23;animacion;2008
 Anastasia;01:31;animacion;2006
 Animatrix;01:29;animacion;2004

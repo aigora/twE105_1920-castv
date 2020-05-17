@@ -9,8 +9,8 @@ Anibal;01:37;accion;2004
 Apocalypto;02:18;accion;2006
 La batalla del rio de la plata;01:59;accion;2007
 Ice age;01:18;animacion;2002
-Alladin;01:30;animaccion;2013
-Alicia en el pais de las maravillas;01:16;animaccion;2010
+Alladin;01:30;animacion;2013
+Alicia en el pais de las maravillas;01:16;animacion;2010
 Alienigenas mutantes;01:23;animacion;2008
 Anastasia;01:31;animacion;2006
 Animatrix;01:29;animacion;2004
@@ -47,6 +47,7 @@ Angustia de silencio;01:98;terror;2013
 Anticristo;01:45;terror;2009
 Aquella casa junto al cementerio;01:23;terror;2014
 Arrastrame al infierno;01:34;terror;2009
-El corredor del laberinto;01:48;ciencia ficcion;2015
-Blade Runner 2049;02:37;ciencia ficcion;2018
+El corredor del laberinto;01:48;ciencia_ficcion;2015
+Blade Runner 2049;02:37;ciencia_ficcion;2018
 Berlin:sinfonia de una ciudad;01:02;documental;2002
+Apocalipsis:la Segunda Guerra Mundial;05:20;documental;2011

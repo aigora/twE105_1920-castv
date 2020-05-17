@@ -225,8 +225,6 @@ void programaciondia(int a[], dia b[]){//Abre la programacion del dia escogido
 	
 }
 
-
-
 int abrepeliculas(pelicula p[],const char *NombreRuta){//funcion que guarda las peliculas y las muestra por pantalla (solo el titulo)
     FILE *pf;
 	int i, nLineas=1, e;
@@ -363,7 +361,7 @@ int CompraPelicula(pelicula p[],int i,const char *RutaPeliculasCompradas, const 
 return saldo;
 }
 
-void ProgramacionActual(dia d[],int *nd,char *HoraSys,char *MinutoSys){
+void ProgramacionActual(dia d[],int *nd,char *HoraSys,char *MinutoSys){//Función que nos muestra la programación actual en todas los canales
     int i,j=0;
         printf("\n");
         printf("Se esta emitiendo a las %s:%s en: \n\n", HoraSys, MinutoSys);
@@ -392,6 +390,61 @@ void ProgramacionActual(dia d[],int *nd,char *HoraSys,char *MinutoSys){
         }
 }
 
+void MuestraTematicas(){//Muestra el formato correcto para que el usuario escriba las tematicas
+	printf("TEMATICAS:\n");
+	printf("\t accion\n");
+	printf("\t documental\n");
+	printf("\t animacion\n");
+	printf("\t ciencia_ficcion\n");
+	printf("\t historico\n");
+	printf("\t terror\n");
+	printf("\t comedia\n");
+	printf("\t musical\n");
+	printf("\t aventuras\n");
+	printf("\t romantica\n");
+}
+
+int SelectorTematica(int nLineas, pelicula Pgratis[]){//Funcion para realizar un filtrado por tematicas
+	int i, j, CopiaValorStrcmp, CoincidenciaTematica[10]={0}, CoincidenciaTotal=0;
+	char *tecla3, comparacion[20];
+	FILE *tema;
+	
+	do{
+		tecla3=(char*)malloc(20*sizeof(char));
+		scanf("%s",tecla3);
+		if(strcmp(comparacion,tecla3)==0){
+			printf("\nPor favor no repita la misma tematica. Ya la hemos almacenado correctamente.");
+			printf("\nEscriba a continuacion otra tematica o bien salir si no quiere anadir mas tematicas: \n\n");
+		}
+		else{
+			tema = fopen("peliculas/tematicas.txt", "a");							
+		    for(i=0;i<nLineas;i++){
+				if(strcmp(Pgratis[i].tematica,tecla3)==0){
+		    		fprintf(tema,"%s;%s:%s;%s;%s\n",
+					Pgratis[i].titulo,
+					Pgratis[i].t.hora,
+					Pgratis[i].t.min,
+					Pgratis[i].tematica,
+					Pgratis[i].year);
+					CoincidenciaTematica[j]++;
+				}
+			}
+			CoincidenciaTotal+=CoincidenciaTematica[j];
+			fclose(tema);
+			CopiaValorStrcmp=strcmp(tecla3,"salir");
+			strcpy(comparacion,tecla3);
+			free(tecla3);
+			if(CoincidenciaTematica[j]==0 || CoincidenciaTematica[j]==CoincidenciaTematica[j-1])
+				printf("No hay ninguna categoria como esa o no disponemos de peliculas de dicha categoria");
+			if(CopiaValorStrcmp)
+				printf("\nEscriba a continuacion otra tematica o bien salir si no quiere anadir mas tematicas: \n\n");
+		}
+		j++;
+		}while(CopiaValorStrcmp);
+		
+return CoincidenciaTotal;
+}
+
 int main (){//Programa principal
 
   EscribeNombre(); 
@@ -401,11 +454,11 @@ int main (){//Programa principal
   
 	  tiempo HoraActual;//Almacena la hora del sistema
 	  
-	  pelicula Pcompradas[50], Ppago[50], Pgratis[150];//Las usaremos para almecenar las películas
+	  pelicula Pcompradas[50], Ppago[50], Pgratis[150], *PeliculaFiltro;//Las usaremos para almecenar las películas
 	  
 	  dia L[6], M[6], X[6], J[6], V[6], S[6], D[6];//Variables en las que se almacenarán los programas de cada día
 	  
-	  int op1=0, op2=0, op3=0, op4=0, op5=0, op6=0, op7=0, op8=0, op9=0, op10=0,j,//Operadores que utilizamos en bucles
+	  int op1=0, op2=0, op3=0, op4=0, op5=0, op6=0, op7=0, op8=0, op9=0, op10=0, op11=0, //Operadores que utilizamos en bucles
 	  	  ContReg=0, i, i2, x1, x2, x3, x4,//Se utilizan en condicionales para el registro
 	  	  ContBanco=0,//Se utilizan en condicionales para el registro de la cuenta bancaria
 		  DiaActual=0,//Almacena numericamente el dia del sistema 
@@ -413,7 +466,8 @@ int main (){//Programa principal
 		  NPC, NPP, NPG,//Almacenamos el numero de películas de cada tipo
 		  precio,//Guarda el precio de las peliculas
 		  Hora,Min,//Almacena la hora del sistema como enteros
-		  y, intentos, ingresosaldo;//Bucles para meter dinero
+		  y, intentos, ingresosaldo,//Bucles para meter dinero
+		  CoincidenciaTematica; //Usados en el proceso de filtrado
 		  
 	  char tecla1[10]="salir", tecla2[10],//Bucle global del programa
 	  	   RutaSaldo[30]={"saldo/"},//La utilizo para crear la ruta del fichero que alberga el saldo de cada usuario
@@ -422,7 +476,7 @@ int main (){//Programa principal
 		   RutaPeliculasGratuitas[60]={"peliculas/peliculas/"},//ruta de las peliculas totales que posee un usuario
 		   ContrasenaBanco[5], DNIusuario[10];//Proceso de verificacion de datos
 		   	
-	  FILE *pf, *cont, *pfbanco, *contbanco, *saldobanco, *pelicomprada;//Punteros que apuntan a los ficheros donde guardamos los datos de los registrados
+	  FILE *pf, *cont, *pfbanco, *contbanco, *saldobanco, *pelicomprada, *tema;//Punteros que apuntan a los ficheros donde guardamos los datos de los registrados
 		   	        
 	  usuario registro, CompReg[5] , CompRegBanco[5];//Necesarios para registrarse
 	  
@@ -799,11 +853,46 @@ do{
 			    break;
 			    	      
 			    case 3:
-			        printf("Bienvenido al apartado de sugerencias.");
-			        printf("Vamos a realizar un filtrado segun sus gustos para ahorrarle tiempo en la eleccion de su contenido multimedia.");
-			        printf("Bienvenido al apartado de sugerencias.");
+			        printf("\nBienvenido al apartado de sugerencias. \n");
+			        printf("Vamos a realizar un filtrado segun sus gustos para ahorrarle tiempo en la eleccion de su contenido multimedia.\n\n");
+			        printf("Estas son todas las peliculas que vamos a tener en cuenta para realizar el filtrado: \n\n");
+			        NPG=abrepeliculas(Pgratis,RutaPeliculasGratuitas);
+			        printf("\nLa sugerencia la realizaremos mediante un filtrado de tematicas y duracion\n\n");
+			        printf("Pulse 1 si quiere filtrar unicamente por tematica.\n");
+			        printf("Pulse 2 si quiere filtrar unicamente por duracion.\n");
+			        printf("Pulse 3 si quiere filtrar por tematica y duracion.\n\n");
+			        do{
+						scanf("%d",&op11);
+						if(op11!=1 && op11!=2 && op11!=3)
+							printf("Esta opcion no esta permitida, intenetelo de nuevo. \n\n");
+			        	switch(op11){
+			        		case 1: 
+			        			printf("Indique la tematica o tematicas que mas le gusten. Escribalo exactemente como aparece abajo uno por uno\n");
+			        			printf("Ejemplo: 'accion' \n\n");
+			        			MuestraTematicas();
+			        			
+					  	    	CoincidenciaTematica=SelectorTematica(NPG,Pgratis);
+					  	    	
+			        			PeliculaFiltro=(pelicula*)malloc(CoincidenciaTematica*sizeof(pelicula));
+			        			abrepeliculas(PeliculaFiltro,"peliculas/tematicas.txt");
+			        			tema = fopen("peliculas/tematicas.txt", "w");
+			        			fclose(tema);
+			        			
+								retrocederprograma(tecla2);		
+			        					
+			        		break;
+			        		case 2:
+			        			printf("Introduzca el intervalo de duracion de la pelicula n");
+			        			printf("Ejemplo: Hora");
+			        			retrocederprograma(tecla2);
+			        		break;
+			        		case 3:
+			        			retrocederprograma(tecla2);
+			        		break;
+						}
+					}while(op11!=1 && op11!=2 && op11!=3);
+			        
 					//Aqui se relizará un filtrado de de gustos para mejor la busqueda y sugerencia
-			        retrocederprograma(tecla2);
 	        	break;
 			    }
 	break;
