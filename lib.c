@@ -239,7 +239,6 @@ void ProgramacionCompleta(const char *NombreDia, dia c[], int Lineas[]){//Funcio
 
 void programaciondia(int a[], dia b[]){//Abre la programacion del dia escogido
 
-     
 	int i=0,j=0;
 	printf("\n");	  
 	switch (j) {
@@ -271,7 +270,7 @@ void programaciondia(int a[], dia b[]){//Abre la programacion del dia escogido
          
 		}
 		printf("\n\n");	
-	}
+}
 
 int abrepeliculas(pelicula p[],const char *NombreRuta){//funcion que guarda las peliculas y las muestra por pantalla (solo el titulo)
     FILE *pf;
