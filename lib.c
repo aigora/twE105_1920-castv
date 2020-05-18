@@ -33,13 +33,6 @@ typedef struct{//Estructura dia
     canal c[30];
 }dia;
 
-//dia[0]= Canal 1
-//dia[1]= Neox
-//dia[2]= Mega
-//dia[3]= Discovery Max
-//dia[4]= Boing
-//dia[5]= La Sexta
-
 typedef struct{//Estructura película
 	char titulo[40];
 	tiempo t;
