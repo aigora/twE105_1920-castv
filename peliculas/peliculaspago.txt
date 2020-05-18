@@ -6,3 +6,22 @@ Deadpool.2;01:54;ciencia_ficcion;2018
 El ADN de Tutankhamon;02:54;documental;2010
 Apocalipsis:la Segunda Guerra Mundial;05:20;documental;2011
 Berlin:sinfonia de una ciudad;01:02;documental;2002
+Barrabas;02:12;aventuras;2002
+Blancanieves y la leyenda del cazador;02:02;aventuras;2005
+Los bucaneros;02:58;aventuras;2012
+Los alegres vividores;01:40;comedia;2009
+Algo casi perfecto;01:46;comedia;2000
+Algo mas pasa con mary;01:45;comedia;2004
+La bruja novata;01:52;animacion;2009
+Buscando a nemo;01:37;animacion;2003
+Calico electronico;01:15;animacion;2007
+Casablanca expres;01:24;accion;2005
+casino royale;02:19;accion;2007
+Caza a la espia;01:46;accion;2011
+Samrasa;02:15;romantica;2004
+La veneciana;01:23;romantica;2007
+La vida de adele;02:53;romantica;2013
+El imperio de los sentidos;01:38;romantica;2001
+Banderas de nuestros padres;02:06;historico;2007
+El baron rojo;01:35;historico;2010
+Bataan;01:54;historico;2007
