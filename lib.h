@@ -1,5 +1,21 @@
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <time.h>
 
 void EscribeNombre();
 int abreSerie();
-
+int ingreso();
+int MetePrograma();
+int MetePrograma2();
+void ProgramacionCompleta();
+void programaciondia();
+int abrepeliculas();
+void detallespeliculas();
+int calculaprecio();
+void retrocederprograma();
+void CopiarFichero();
+int CompraPelicula();
+void ProgramacionActual();
+void MuestraTematicas();
+int SelectorTematica();
