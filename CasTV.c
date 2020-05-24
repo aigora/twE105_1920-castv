@@ -64,7 +64,7 @@ int main (){//Programa principal
 	  
 	  dia L[6], M[6], X[6], J[6], V[6], S[6], D[6];//Variables en las que se almacenarán los programas de cada día
 	  
-	  int op1=0, op2=0, op3=0, op4=0, op5=0, op6=0, op7=0, op8=0, op9=0, op10=0, op11=0, op12=0, //Operadores que utilizamos en bucles
+	  int op1=0, op2=0, op3=0, op4=0, op5=0, op6=0, op7=0, op8=0, op9=0, op10=0, op11=0, op12=0, contadorh, contadormin, //Operadores que utilizamos en bucles
 	  	  ContReg=0, i, j, i2, x1, x2, x3, x4,//Se utilizan en condicionales para el registro
 	  	  ContBanco=0,//Se utilizan en condicionales para el registro de la cuenta bancaria
 		  DiaActual=0,//Almacena numericamente el dia del sistema 
@@ -83,7 +83,9 @@ int main (){//Programa principal
 		   MinutoSys[10],HoraSys[10],//Guarda la hora del sistema como cadena de caracteres
 		   RutaPeliculasCompradas[60]={"peliculas/peliculascompradas/"},//Lo utilizo para crear la ruta de las peliculas compradas por cada usuario
 		   RutaPeliculasGratuitas[60]={"peliculas/peliculas/"},//ruta de las peliculas totales que posee un usuario
-		   ContrasenaBanco[5], DNIusuario[10];//Proceso de verificacion de datos
+		   ContrasenaBanco[5], DNIusuario[10],//Proceso de verificacion de datos
+		   zero[3]="0";
+		   
 		   	
 	  FILE *pf, *cont, *pfbanco, *contbanco, *saldobanco, *pelicomprada, *tema;//Punteros que apuntan a los ficheros donde guardamos los datos de los registrados
 		   	        
@@ -136,10 +138,11 @@ do{
  	  struct tm tiempoLocal = *localtime(&t);
  	   DiaActual= tiempoLocal.tm_wday;	
 		Hora=tiempoLocal.tm_hour;
-		Min=tiempoLocal.tm_min;
 		sprintf(HoraSys,"%d",Hora);
+		
+		Min=tiempoLocal.tm_min;
 		sprintf(MinutoSys,"%d",Min);
-		printf("%s:%s",HoraSys,MinutoSys);
+		printf("%s:%s",zero,MinutoSys);
  	  
  switch(op1){//El usuario ya está registrado
  	case 1:
