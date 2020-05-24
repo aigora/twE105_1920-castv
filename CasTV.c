@@ -51,6 +51,30 @@ typedef struct{//Estrcura serie
 	char descripcion[500];
 }serie;
 
+ FiltradoDuracion(pelicula Pgratis[],int NPG,char *HoraCompara1,char *HoraCompara2, char *MinutoCompara1,char *MinutoCompara2){
+ 	int contadorduracion=0, i;
+ 		for(i=0;i<NPG;i++){
+			if(strcmp(Pgratis[i].t.hora,HoraCompara1)>0 && strcmp(Pgratis[i].t.hora,HoraCompara2)<=0){
+		     	if(strcmp(Pgratis[i].t.min,MinutoCompara2)<=0){
+					printf("%d- %s.\tDuracion: %s:%s \n\n",contadorduracion+1,Pgratis[i].titulo,Pgratis[i].t.hora,Pgratis[i].t.min);
+					contadorduracion++;
+				}
+			}
+			if(strcmp(Pgratis[i].t.hora,HoraCompara1)==0 && strcmp(Pgratis[i].t.hora,HoraCompara2)<0){
+			    if(strcmp(Pgratis[i].t.min,MinutoCompara1)>=0){
+					printf("%d- %s.\tDuracion: %s:%s \n\n",contadorduracion+1,Pgratis[i].titulo,Pgratis[i].t.hora,Pgratis[i].t.min);
+					contadorduracion++;
+				}
+			}
+			if(strcmp(Pgratis[i].t.hora,HoraCompara1)==0 && strcmp(Pgratis[i].t.hora,HoraCompara2)==0){
+				if(strcmp(Pgratis[i].t.min,MinutoCompara1)>=0 && strcmp(Pgratis[i].t.min,MinutoCompara2)<=0){
+					printf("%d- %s.\tDuracion: %s:%s \n\n",contadorduracion+1,Pgratis[i].titulo,Pgratis[i].t.hora,Pgratis[i].t.min);
+					contadorduracion++;
+				}
+			}
+		}
+ }
+
 int main (){//Programa principal
 
   EscribeNombre(); 
@@ -74,7 +98,7 @@ int main (){//Programa principal
 		  precio,//Guarda el precio de las peliculas
 		  Hora,Min,//Almacena la hora del sistema como enteros
 		  y, intentos, ingresosaldo,//Bucles para meter dinero
-		  CoincidenciaTematica, contadorduracion,//Usados en el proceso de filtrado
+		  CoincidenciaTematica,//Usados en el proceso de filtrado
 		  temporada,//Para elegir la temporada de la serie 
 		  longh=0,longmin=0;
 
@@ -85,7 +109,7 @@ int main (){//Programa principal
 		   RutaPeliculasCompradas[60]={"peliculas/peliculascompradas/"},//Lo utilizo para crear la ruta de las peliculas compradas por cada usuario
 		   RutaPeliculasGratuitas[60]={"peliculas/peliculas/"},//ruta de las peliculas totales que posee un usuario
 		   ContrasenaBanco[5], DNIusuario[10],//Proceso de verificacion de datos
-		   HoraCompara1[3], MinutoCompara1[3], HoraCompara2[3], MinutoCompara2[3],//Para el filtrado por duración
+		   *HoraCompara1, *MinutoCompara1, *HoraCompara2, *MinutoCompara2,//Para el filtrado por duración
 		   *zero,*sero;
 		   	
 	  FILE *pf, *cont, *pfbanco, *contbanco, *saldobanco, *pelicomprada, *tema;//Punteros que apuntan a los ficheros donde guardamos los datos de los registrados
@@ -143,25 +167,26 @@ do{
 	zero=(char*)malloc(3*sizeof(char));
 	strcpy(sero,"0");
 	strcpy(zero,"0");
+	
 	  time_t t = time(NULL);//Se obtiene la hora del sistema por cada repeticion del bucle.
- 	  struct tm tiempoLocal = *localtime(&t);
- 	   DiaActual= tiempoLocal.tm_wday;	
-		Hora=tiempoLocal.tm_hour;
+	  struct tm tiempoLocal = *localtime(&t);
+ 	    DiaActual= tiempoLocal.tm_wday;	
+	    Hora=tiempoLocal.tm_hour;
 		Min=tiempoLocal.tm_min;
 		sprintf(HoraSys,"%d",Hora);
-		//sprintf(MinutoSys,"%d",Min);
-		MinutoSys[0]='4';
+		sprintf(MinutoSys,"%d",Min);
+		
 		longh=strlen(HoraSys);
 		longmin=strlen(MinutoSys);
-		//printf("%d, %d\t", longh, longmin);
+
 		if(longh==1){
 			strcat(zero,HoraSys);
 			strcpy(HoraSys,zero);	
 		}
-			if(longmin==1){
+		if(longmin==1){	
 			strcat(sero,MinutoSys);
 			strcpy(MinutoSys,sero);
-			}
+		}
 		
 		printf("%s:%s",HoraSys,MinutoSys);
  	  free(zero);
@@ -574,7 +599,7 @@ do{
 						scanf("%d",&op11);
 						if(op11!=1 && op11!=2 && op11!=3)
 							printf("Esta opcion no esta permitida, intenetelo de nuevo. \n\n");
-			        	switch(op11){
+			        	switch(op11){			        		
 			        		case 1: 
 			        			printf("Indique la tematica o tematicas que mas le gusten. Escribalo exactemente como aparece abajo uno por uno\n");
 			        			printf("Ejemplo: 'accion' \n\n");
@@ -586,47 +611,76 @@ do{
 			        			abrepeliculas(PeliculaFiltro,"peliculas/tematicas.txt");
 			        			tema = fopen("peliculas/tematicas.txt", "w");
 			        			fclose(tema);
+			        			free(PeliculaFiltro);
 			        			
 								retrocederprograma(tecla2);		
 			        					
 			        		break;
 			        		case 2:
+			        		HoraCompara1=(char*)malloc(3*sizeof(char));
+			        		HoraCompara2=(char*)malloc(3*sizeof(char));
+			        		MinutoCompara1=(char*)malloc(3*sizeof(char));
+			        		MinutoCompara2=(char*)malloc(3*sizeof(char));
 			        		printf("Introduzca el intervalo de duracion de la pelicula \n");
 			        			printf("Ejemplo: Hora: 01 , Minutos: 45 \n\n");
 			        			printf("Introduzca la duracion minima \n");
 			        			printf("Horas: \n"); scanf("%s",HoraCompara1);
 			        			printf("Minutos: \n"); scanf("%s",MinutoCompara1);
-			        			printf("Introduzca la duracion maxima \n");
+			        			printf("\nIntroduzca la duracion maxima \n");
 			        			printf("Horas: \n"); scanf("%s",HoraCompara2);
 			        			printf("Minutos: \n"); scanf("%s",MinutoCompara2);
 			        			
-			        			contadorduracion=0;
-			        			for(i=0;i<NPG;i++){
-			        				if(strcmp(Pgratis[i].t.hora,HoraCompara1)>0 && strcmp(Pgratis[i].t.hora,HoraCompara2)<=0){
-			        					if(strcmp(Pgratis[i].t.min,MinutoCompara2)<=0){
-											printf("%d- %s.\tDuracion: %s:%s \n\n",contadorduracion+1,Pgratis[i].titulo,Pgratis[i].t.hora,Pgratis[i].t.min);
-											contadorduracion++;
-										}
-									}
-									if(strcmp(Pgratis[i].t.hora,HoraCompara1)==0 && strcmp(Pgratis[i].t.hora,HoraCompara2)<0){
-			        					if(strcmp(Pgratis[i].t.min,MinutoCompara1)>=0){
-											printf("%d- %s.\tDuracion: %s:%s \n\n",contadorduracion+1,Pgratis[i].titulo,Pgratis[i].t.hora,Pgratis[i].t.min);
-											contadorduracion++;
-										}
-									}
-									if(strcmp(Pgratis[i].t.hora,HoraCompara1)==0 && strcmp(Pgratis[i].t.hora,HoraCompara2)==0){
-										if(strcmp(Pgratis[i].t.min,MinutoCompara1)>=0 && strcmp(Pgratis[i].t.min,MinutoCompara2)<=0){
-											printf("%d- %s.\tDuracion: %s:%s \n\n",contadorduracion+1,Pgratis[i].titulo,Pgratis[i].t.hora,Pgratis[i].t.min);
-											contadorduracion++;
-										}
-									}
-								}
+			        		    FiltradoDuracion(Pgratis,NPG,HoraCompara1,HoraCompara2,MinutoCompara1,MinutoCompara2);
 									
 			        			retrocederprograma(tecla2);
 			        		break;
 			        		case 3:
+			        		HoraCompara1=(char*)malloc(3*sizeof(char));
+			        		HoraCompara2=(char*)malloc(3*sizeof(char));
+			        		MinutoCompara1=(char*)malloc(3*sizeof(char));
+			        		MinutoCompara2=(char*)malloc(3*sizeof(char));
+			        			printf("Indique la tematica o tematicas que mas le gusten. Escribalo exactemente como aparece abajo uno por uno\n");
+			        			printf("Ejemplo: 'accion' \n\n");
+			        			MuestraTematicas();
+			        			CoincidenciaTematica=SelectorTematica(NPG,Pgratis);
+			        			
+			        			printf("\nIntroduzca el intervalo de duracion de la pelicula \n");
+			        			printf("Ejemplo: Hora: 01 , Minutos: 45 \n\n");
+			        			printf("Introduzca la duracion minima \n");
+			        			printf("Horas: \n"); scanf("%s",HoraCompara1);
+			        			printf("Minutos: \n"); scanf("%s",MinutoCompara1);
+			        			printf("\nIntroduzca la duracion maxima \n");
+			        			printf("Horas: \n"); scanf("%s",HoraCompara2);
+			        			printf("Minutos: \n"); scanf("%s",MinutoCompara2);
+			        			
+			        			PeliculaFiltro=(pelicula*)malloc(CoincidenciaTematica*sizeof(pelicula));
+			        			
+			        			pf=fopen("peliculas/tematicas.txt","r");
+	   							 if (pf==NULL){
+         							printf ("Error abriendo el fichero");
+							    	return -1;
+						         }
+						         else{
+						         	
+	   		 						for(i=0;i<CoincidenciaTematica-1;i++){
+	      	 						fscanf(pf, "%[^;];%[^:]:%[^;];%[^;];%5[^\n]\n", PeliculaFiltro[i].titulo,
+	        	 					PeliculaFiltro[i].t.hora,
+	          	 					PeliculaFiltro[i].t.min,
+	    	     					PeliculaFiltro[i].tematica,
+		         					PeliculaFiltro[i].year);
+								    }
+								 }
+			        			 fclose(pf);
+			        			 
+			        			 FiltradoDuracion(PeliculaFiltro,NPG,HoraCompara1,HoraCompara2,MinutoCompara1,MinutoCompara2);
+			        			 tema = fopen("peliculas/tematicas.txt", "w");
+			        			 fclose(tema);
+			        			 free(PeliculaFiltro);
+			        			 
 			        			retrocederprograma(tecla2);
 			        		break;
+			        		
+							free(HoraCompara1);free(HoraCompara2);free(MinutoCompara1);free(MinutoCompara2);
 						}
 					}while(op11!=1 && op11!=2 && op11!=3);
 			        

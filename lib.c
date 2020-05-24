@@ -484,15 +484,16 @@ int SelectorTematica(int nLineas, pelicula Pgratis[]){//Funcion para realizar un
 			CopiaValorStrcmp=strcmp(tecla3,"salir");
 			strcpy(comparacion,tecla3);
 			free(tecla3);
-			if(CoincidenciaTematica[j]==0 || CoincidenciaTematica[j]==CoincidenciaTematica[j-1])
-				printf("No hay ninguna categoria como esa o no disponemos de peliculas de dicha categoria");
-			if(CopiaValorStrcmp)
-				printf("\nEscriba a continuacion otra tematica o bien salir si no quiere anadir mas tematicas: \n\n");
-		}
+			
+			if(CopiaValorStrcmp){
+				if(CoincidenciaTematica[j]==0)
+					printf("No hay ninguna categoria como esa o no disponemos de peliculas de dicha categoria\n");
+					printf("\nEscriba a continuacion otra tematica o bien salir si no quiere anadir mas tematicas: \n\n");
+				}
+			}
 		j++;
 		}while(CopiaValorStrcmp);
 		
 return CoincidenciaTotal;
 }	
-
 
