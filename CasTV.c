@@ -60,11 +60,11 @@ int main (){//Programa principal
   
 	  tiempo HoraActual;//Almacena la hora del sistema
 	  
-	  pelicula Pcompradas[50], Ppago[50], Pgratis[150], *PeliculaFiltro;//Las usaremos para almecenar las películas
+	  pelicula Pcompradas[50], Ppago[50], Pgratis[150], *PeliculaFiltro, PeliculasDuracion[150];//Las usaremos para almecenar las películas
 	  
 	  dia L[6], M[6], X[6], J[6], V[6], S[6], D[6];//Variables en las que se almacenarán los programas de cada día
 	  
-	  int op1=0, op2=0, op3=0, op4=0, op5=0, op6=0, op7=0, op8=0, op9=0, op10=0, op11=0, op12=0, contadorh, contadormin, //Operadores que utilizamos en bucles
+	  int op1=0, op2=0, op3=0, op4=0, op5=0, op6=0, op7=0, op8=0, op9=0, op10=0, op11=0, op12=0, //Operadores que utilizamos en bucles
 	  	  ContReg=0, i, j, i2, x1, x2, x3, x4,//Se utilizan en condicionales para el registro
 	  	  ContBanco=0,//Se utilizan en condicionales para el registro de la cuenta bancaria
 		  DiaActual=0,//Almacena numericamente el dia del sistema 
@@ -74,7 +74,7 @@ int main (){//Programa principal
 		  precio,//Guarda el precio de las peliculas
 		  Hora,Min,//Almacena la hora del sistema como enteros
 		  y, intentos, ingresosaldo,//Bucles para meter dinero
-		  CoincidenciaTematica,//Usados en el proceso de filtrado
+		  CoincidenciaTematica, contadorduracion,//Usados en el proceso de filtrado
 		  temporada;//Para elegir la temporada de la serie 
 
 		  
@@ -84,8 +84,7 @@ int main (){//Programa principal
 		   RutaPeliculasCompradas[60]={"peliculas/peliculascompradas/"},//Lo utilizo para crear la ruta de las peliculas compradas por cada usuario
 		   RutaPeliculasGratuitas[60]={"peliculas/peliculas/"},//ruta de las peliculas totales que posee un usuario
 		   ContrasenaBanco[5], DNIusuario[10],//Proceso de verificacion de datos
-		   zero[3]="0";
-		   
+		   HoraCompara1[3], MinutoCompara1[3], HoraCompara2[3], MinutoCompara2[3];//Para el filtrado por duración
 		   	
 	  FILE *pf, *cont, *pfbanco, *contbanco, *saldobanco, *pelicomprada, *tema;//Punteros que apuntan a los ficheros donde guardamos los datos de los registrados
 		   	        
@@ -126,23 +125,28 @@ int main (){//Programa principal
   //CREO NOMBRES DE RUTAS QUE POSTERIORMENTE VOY A USAR
  		strcat(RutaPeliculasGratuitas,registro.nombre);
 		strcat(RutaPeliculasGratuitas,".txt");
+		
+		printf("%s",RutaPeliculasGratuitas);
 					
 		strcat(RutaSaldo,registro.nombre);
 		strcat(RutaSaldo,".txt");
 					
 		strcat(RutaPeliculasCompradas,registro.nombre);
 		strcat(RutaPeliculasCompradas,".txt");
+		
+		pelicomprada = fopen(RutaPeliculasGratuitas, "a");
+		fclose(pelicomprada);
+	    CopiarFichero("peliculas/peliculas.txt",RutaPeliculasGratuitas);
 
 do{
 	  time_t t = time(NULL);//Se obtiene la hora del sistema por cada repeticion del bucle.
  	  struct tm tiempoLocal = *localtime(&t);
  	   DiaActual= tiempoLocal.tm_wday;	
 		Hora=tiempoLocal.tm_hour;
-		sprintf(HoraSys,"%d",Hora);
-		
 		Min=tiempoLocal.tm_min;
+		sprintf(HoraSys,"%d",Hora);
 		sprintf(MinutoSys,"%d",Min);
-		printf("%s:%s",zero,MinutoSys);
+		printf("%s:%s",HoraSys,MinutoSys);
  	  
  switch(op1){//El usuario ya está registrado
  	case 1:
@@ -262,10 +266,6 @@ do{
 			    		case 1: //Películas gratuitas
 			    		   
 			    	       printf("Estas son todas las peliculas que disponemos. Si quiere realizar un filtrado dirijase al apartado recomendacion en el menu principal: \n\n");
-			          	   pelicomprada = fopen(RutaPeliculasGratuitas, "a");
-			          	   fclose(pelicomprada);
-			          	   CopiarFichero("peliculas/peliculas.txt",RutaPeliculasGratuitas);
-						   
 			    	       NPG=abrepeliculas(Pgratis,RutaPeliculasGratuitas);
 			    	       
 			    	       printf("Pulse 1 si desea buscar alguna pelicula por el titulo o 2 si desea saber los detalles de alguna\n");
@@ -571,8 +571,37 @@ do{
 			        					
 			        		break;
 			        		case 2:
-			        			printf("Introduzca el intervalo de duracion de la pelicula n");
-			        			printf("Ejemplo: Hora");
+			        		printf("Introduzca el intervalo de duracion de la pelicula \n");
+			        			printf("Ejemplo: Hora: 01 , Minutos: 45 \n\n");
+			        			printf("Introduzca la duracion minima \n");
+			        			printf("Horas: \n"); scanf("%s",HoraCompara1);
+			        			printf("Minutos: \n"); scanf("%s",MinutoCompara1);
+			        			printf("Introduzca la duracion maxima \n");
+			        			printf("Horas: \n"); scanf("%s",HoraCompara2);
+			        			printf("Minutos: \n"); scanf("%s",MinutoCompara2);
+			        			
+			        			contadorduracion=0;
+			        			for(i=0;i<NPG;i++){
+			        				if(strcmp(Pgratis[i].t.hora,HoraCompara1)>0 && strcmp(Pgratis[i].t.hora,HoraCompara2)<=0){
+			        					if(strcmp(Pgratis[i].t.min,MinutoCompara2)<=0){
+											printf("%d- %s.\tDuracion: %s:%s \n\n",contadorduracion+1,Pgratis[i].titulo,Pgratis[i].t.hora,Pgratis[i].t.min);
+											contadorduracion++;
+										}
+									}
+									if(strcmp(Pgratis[i].t.hora,HoraCompara1)==0 && strcmp(Pgratis[i].t.hora,HoraCompara2)<0){
+			        					if(strcmp(Pgratis[i].t.min,MinutoCompara1)>=0){
+											printf("%d- %s.\tDuracion: %s:%s \n\n",contadorduracion+1,Pgratis[i].titulo,Pgratis[i].t.hora,Pgratis[i].t.min);
+											contadorduracion++;
+										}
+									}
+									if(strcmp(Pgratis[i].t.hora,HoraCompara1)==0 && strcmp(Pgratis[i].t.hora,HoraCompara2)==0){
+										if(strcmp(Pgratis[i].t.min,MinutoCompara1)>=0 && strcmp(Pgratis[i].t.min,MinutoCompara2)<=0){
+											printf("%d- %s.\tDuracion: %s:%s \n\n",contadorduracion+1,Pgratis[i].titulo,Pgratis[i].t.hora,Pgratis[i].t.min);
+											contadorduracion++;
+										}
+									}
+								}
+									
 			        			retrocederprograma(tecla2);
 			        		break;
 			        		case 3:
