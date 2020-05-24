@@ -52,13 +52,12 @@ typedef struct{//Estrcura serie
 }serie;
 
 
-
 int main (){//Programa principal
 
   EscribeNombre(); 
    
   
-  ////////////////////////////////////////////VARIABLES QUE VAMOS A UTILIZAR POSTERIORMENTE////////////////////////////////////////////
+  ////////////////////////////////////////////VARIABLES QUE VAMOS A UTILIZAR POSTERIORMENTE//////////////////////////////////////////////
   
 	  tiempo HoraActual;//Almacena la hora del sistema
 	  
@@ -97,7 +96,7 @@ int main (){//Programa principal
 	  serie s1[11],s2[11],s3[11],s4[11],s5[11],s6[11],s7[11],s8[11];//Cada temporada de la serie
 	  
 	  
- /////////////////////////////////////////////////////FIN DE LAS VARIABLES/////////////////////////////////////////////////////
+ /////////////////////////////////////////////////////FIN DE LAS VARIABLES///////////////////////////////////////////////////////
 
 
         ProgramacionCompleta("lunes",L,NL);//Introducimos el dia para guaradar los datos en la varibale correspondiente al dia 
@@ -122,24 +121,31 @@ int main (){//Programa principal
 		  do{
 			  scanf("%s",registro.nombre); //Pasaremos a usar el programa bajo el nombre de la persona registrada
 			  op4=ingreso(registro);
+			  
+			  //CREO NOMBRES DE RUTAS QUE POSTERIORMENTE USAREMOS
+ 				strcat(RutaPeliculasGratuitas,registro.nombre);
+				strcat(RutaPeliculasGratuitas,".txt");
+		
+				printf("%s",RutaPeliculasGratuitas);
+		
+				strcat(RutaSaldo,registro.nombre);
+				strcat(RutaSaldo,".txt");
+		
+				printf("%s",RutaSaldo);
+					
+				strcat(RutaPeliculasCompradas,registro.nombre);
+				strcat(RutaPeliculasCompradas,".txt");
+		
+				printf("%s",RutaPeliculasCompradas);
+		
+				pelicomprada = fopen(RutaPeliculasGratuitas, "a");
+				fclose(pelicomprada);
+	    		CopiarFichero("peliculas/peliculas.txt",RutaPeliculasGratuitas);
+	    		
 		  }while(op4);
 	  } 
  }while((op1!=1) && (op1!=2));
  
-  //CREO NOMBRES DE RUTAS QUE POSTERIORMENTE VOY A USAR
- 		strcat(RutaPeliculasGratuitas,registro.nombre);
-		strcat(RutaPeliculasGratuitas,".txt");
-		
-		strcat(RutaSaldo,registro.nombre);
-		strcat(RutaSaldo,".txt");
-					
-		strcat(RutaPeliculasCompradas,registro.nombre);
-		strcat(RutaPeliculasCompradas,".txt");
-		
-		pelicomprada = fopen(RutaPeliculasGratuitas, "a");
-		fclose(pelicomprada);
-	    CopiarFichero("peliculas/peliculas.txt",RutaPeliculasGratuitas);
-
 do{
 		  borrar();
 	sero=(char*)malloc(3*sizeof(char));
@@ -663,7 +669,6 @@ do{
 						}
 					}while(op11!=1 && op11!=2 && op11!=3);
 			        
-					//Aqui se relizará un filtrado de de gustos para mejor la busqueda y sugerencia
 	        	break;
 			    }
 	break;
@@ -720,6 +725,28 @@ do{
 						  	 printf("si desea continuar una vez registrado pulse 1, si no pulse cualquier valor para finalizar el programa \n");
 						     scanf("%d",&op1);
 							 if(op1!=1) strcpy(tecla2,tecla1);
+							 else{
+						     	
+						     	//CREO NOMBRES DE RUTAS QUE POSTERIORMENTE USAREMOS
+ 									strcat(RutaPeliculasGratuitas,registro.nombre);
+									strcat(RutaPeliculasGratuitas,".txt");
+		
+									printf("%s",RutaPeliculasGratuitas);
+		
+									strcat(RutaSaldo,registro.nombre);
+									strcat(RutaSaldo,".txt");
+		
+									printf("%s",RutaSaldo);
+					
+									strcat(RutaPeliculasCompradas,registro.nombre);
+									strcat(RutaPeliculasCompradas,".txt");
+		
+									printf("%s",RutaPeliculasCompradas);
+		
+									pelicomprada = fopen(RutaPeliculasGratuitas, "a");
+									fclose(pelicomprada);
+	    							CopiarFichero("peliculas/peliculas.txt",RutaPeliculasGratuitas);
+							 }
 						 }
 		   			 	 cont = fopen("contador.txt", "w");
 						 fprintf(cont, "%d",ContReg);
