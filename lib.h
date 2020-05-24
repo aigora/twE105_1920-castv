@@ -19,3 +19,4 @@ int CompraPelicula();
 void ProgramacionActual();
 void MuestraTematicas();
 int SelectorTematica();
+void FiltradoDuracion();

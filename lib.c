@@ -411,8 +411,8 @@ int CompraPelicula(pelicula p[],int i,const char *RutaPeliculasCompradas, const 
 return saldo;
 }
 
-void ProgramacionActual(dia d[],int *nd,char *HoraSys,char *MinutoSys){//Función que nos muestra la programación actual en todas los canales
-    int i,j=0;
+void ProgramacionActual(dia d[],int nd[],char *HoraSys,char *MinutoSys){//Función que nos muestra la programación actual en todas los canales
+    int i=0,j=0,stop;
         printf("\n");
         printf("Se esta emitiendo a las %s:%s en: \n\n", HoraSys, MinutoSys);
         for(j=0;j<6;j++){
@@ -428,14 +428,46 @@ void ProgramacionActual(dia d[],int *nd,char *HoraSys,char *MinutoSys){//Función
              printf("Boing\n");
             if(j==5)
              printf("La sexta\n");
+             
+             i=0;
             
-            for(i=0;i<nd[j];i++){
-                if(strcmp(d[j].c[i].ti.hora,HoraSys)<=0 && strcmp(d[j].c[i].tf.hora,HoraSys)>0){
-                    printf("\tPrograma actual---->\t");
-                    printf("%s \n",d[j].c[i].titulo);
-                    printf("\tSiguiente programa---->\t");
-                    printf("%s\tEmpieza a las %s:%s\n\n\n",d[j].c[i+1].titulo,d[j].c[i+1].ti.hora,d[j].c[i+1].ti.min);   
-                }       
+            stop=1;
+        	while(stop){
+        		i++;
+                if(strcmp(d[j].c[i].ti.hora,HoraSys)==0 && strcmp(d[j].c[i].tf.hora,HoraSys)==0){
+                	if(strcmp(d[j].c[i].ti.min,MinutoSys)<0){
+	                    printf("\tPrograma actual---->\t");
+	                    printf("%s\tHa empieza a las %s:%s\n",d[j].c[i].titulo,d[j].c[i].ti.hora,d[j].c[i].ti.min);
+	                    printf("\tSiguiente programa---->\t");
+	                    printf("%s\tEmpieza a las %s:%s\n\n\n",d[j].c[i+1].titulo,d[j].c[i+1].ti.hora,d[j].c[i+1].ti.min);  
+						stop--; 
+					}
+                }    
+				if(strcmp(d[j].c[i].ti.hora,HoraSys)==0 && strcmp(d[j].c[i].tf.hora,HoraSys)>0){
+					printf("\tPrograma actual---->\t");
+	                printf("%s\tHa empieza a las %s:%s\n",d[j].c[i].titulo,d[j].c[i].ti.hora,d[j].c[i].ti.min);
+	                printf("\tSiguiente programa---->\t");
+	            	printf("%s\tEmpieza a las %s:%s\n\n\n",d[j].c[i+1].titulo,d[j].c[i+1].ti.hora,d[j].c[i+1].ti.min);  
+					stop--; 
+				}
+				if(strcmp(d[j].c[i].ti.hora,HoraSys)<0 && strcmp(d[j].c[i].tf.hora,HoraSys)>0){
+					printf("\tPrograma actual---->\t");
+	                printf("%s\tHa empieza a las %s:%s\n",d[j].c[i].titulo,d[j].c[i].ti.hora,d[j].c[i].ti.min);
+	                printf("\tSiguiente programa---->\t");
+	            	printf("%s\tEmpieza a las %s:%s\n\n\n",d[j].c[i+1].titulo,d[j].c[i+1].ti.hora,d[j].c[i+1].ti.min);  
+					stop--; 
+				}
+				if(strcmp(d[j].c[i].ti.hora,HoraSys)<0 && strcmp(d[j].c[i].tf.hora,HoraSys)==0){
+					if(strcmp(d[j].c[i].tf.min,MinutoSys)>0){
+						printf("\tPrograma actual---->\t");
+	               		printf("%s\tHa empieza a las %s:%s\n",d[j].c[i].titulo,d[j].c[i].ti.hora,d[j].c[i].ti.min);
+	                	printf("\tSiguiente programa---->\t");
+	            		printf("%s\tEmpieza a las %s:%s\n\n\n",d[j].c[i+1].titulo,d[j].c[i+1].ti.hora,d[j].c[i+1].ti.min);  
+						stop--; 		
+					}
+				}
+				if(i==nd[j])
+					stop--;
             }
         }
 }
@@ -496,4 +528,29 @@ int SelectorTematica(int nLineas, pelicula Pgratis[]){//Funcion para realizar un
 		
 return CoincidenciaTotal;
 }	
+
+void FiltradoDuracion(pelicula Pgratis[],int NPG,char *HoraCompara1,char *HoraCompara2, char *MinutoCompara1,char *MinutoCompara2){
+ 	int contadorduracion=0, i;
+ 	
+ 		for(i=0;i<NPG;i++){
+			if(strcmp(Pgratis[i].t.hora,HoraCompara1)>0 && strcmp(Pgratis[i].t.hora,HoraCompara2)<=0){
+		     	if(strcmp(Pgratis[i].t.min,MinutoCompara2)<=0){
+					printf("%d- %s.\tDuracion: %s:%s \n\n",contadorduracion+1,Pgratis[i].titulo,Pgratis[i].t.hora,Pgratis[i].t.min);
+					contadorduracion++;
+				}
+			}
+			if(strcmp(Pgratis[i].t.hora,HoraCompara1)==0 && strcmp(Pgratis[i].t.hora,HoraCompara2)<0){
+			    if(strcmp(Pgratis[i].t.min,MinutoCompara1)>=0){
+					printf("%d- %s.\tDuracion: %s:%s \n\n",contadorduracion+1,Pgratis[i].titulo,Pgratis[i].t.hora,Pgratis[i].t.min);
+					contadorduracion++;
+				}
+			}
+			if(strcmp(Pgratis[i].t.hora,HoraCompara1)==0 && strcmp(Pgratis[i].t.hora,HoraCompara2)==0){
+				if(strcmp(Pgratis[i].t.min,MinutoCompara1)>=0 && strcmp(Pgratis[i].t.min,MinutoCompara2)<=0){
+					printf("%d- %s.\tDuracion: %s:%s \n\n",contadorduracion+1,Pgratis[i].titulo,Pgratis[i].t.hora,Pgratis[i].t.min);
+					contadorduracion++;
+				}
+			}
+		}
+ }
 

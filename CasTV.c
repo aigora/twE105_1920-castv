@@ -51,29 +51,7 @@ typedef struct{//Estrcura serie
 	char descripcion[500];
 }serie;
 
- FiltradoDuracion(pelicula Pgratis[],int NPG,char *HoraCompara1,char *HoraCompara2, char *MinutoCompara1,char *MinutoCompara2){
- 	int contadorduracion=0, i;
- 		for(i=0;i<NPG;i++){
-			if(strcmp(Pgratis[i].t.hora,HoraCompara1)>0 && strcmp(Pgratis[i].t.hora,HoraCompara2)<=0){
-		     	if(strcmp(Pgratis[i].t.min,MinutoCompara2)<=0){
-					printf("%d- %s.\tDuracion: %s:%s \n\n",contadorduracion+1,Pgratis[i].titulo,Pgratis[i].t.hora,Pgratis[i].t.min);
-					contadorduracion++;
-				}
-			}
-			if(strcmp(Pgratis[i].t.hora,HoraCompara1)==0 && strcmp(Pgratis[i].t.hora,HoraCompara2)<0){
-			    if(strcmp(Pgratis[i].t.min,MinutoCompara1)>=0){
-					printf("%d- %s.\tDuracion: %s:%s \n\n",contadorduracion+1,Pgratis[i].titulo,Pgratis[i].t.hora,Pgratis[i].t.min);
-					contadorduracion++;
-				}
-			}
-			if(strcmp(Pgratis[i].t.hora,HoraCompara1)==0 && strcmp(Pgratis[i].t.hora,HoraCompara2)==0){
-				if(strcmp(Pgratis[i].t.min,MinutoCompara1)>=0 && strcmp(Pgratis[i].t.min,MinutoCompara2)<=0){
-					printf("%d- %s.\tDuracion: %s:%s \n\n",contadorduracion+1,Pgratis[i].titulo,Pgratis[i].t.hora,Pgratis[i].t.min);
-					contadorduracion++;
-				}
-			}
-		}
- }
+
 
 int main (){//Programa principal
 
