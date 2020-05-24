@@ -20,3 +20,4 @@ void ProgramacionActual();
 void MuestraTematicas();
 int SelectorTematica();
 void FiltradoDuracion();
+void borrar();

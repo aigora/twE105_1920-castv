@@ -169,7 +169,7 @@ do{
 		printf("%s:%s",HoraSys,MinutoSys);
  	  free(zero);
  	  free(sero);
- 	  
+ 	  borrar();
  	  
  switch(op1){//El usuario ya está registrado
  	case 1:
