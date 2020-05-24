@@ -75,16 +75,18 @@ int main (){//Programa principal
 		  Hora,Min,//Almacena la hora del sistema como enteros
 		  y, intentos, ingresosaldo,//Bucles para meter dinero
 		  CoincidenciaTematica, contadorduracion,//Usados en el proceso de filtrado
-		  temporada;//Para elegir la temporada de la serie 
+		  temporada,//Para elegir la temporada de la serie 
+		  longh=0,longmin=0;
 
 		  
 	  char tecla1[10]="salir", tecla2[10], cero[]="0",//Bucle global del programa
 	  	   RutaSaldo[30]={"saldo/"},//La utilizo para crear la ruta del fichero que alberga el saldo de cada usuario
-		   MinutoSys[10],HoraSys[10],//Guarda la hora del sistema como cadena de caracteres
+		   MinutoSys[3]="0",HoraSys[3]="0",//Guarda la hora del sistema como cadena de caracteres
 		   RutaPeliculasCompradas[60]={"peliculas/peliculascompradas/"},//Lo utilizo para crear la ruta de las peliculas compradas por cada usuario
 		   RutaPeliculasGratuitas[60]={"peliculas/peliculas/"},//ruta de las peliculas totales que posee un usuario
 		   ContrasenaBanco[5], DNIusuario[10],//Proceso de verificacion de datos
-		   HoraCompara1[3], MinutoCompara1[3], HoraCompara2[3], MinutoCompara2[3];//Para el filtrado por duración
+		   HoraCompara1[3], MinutoCompara1[3], HoraCompara2[3], MinutoCompara2[3],//Para el filtrado por duración
+		   *zero,*sero;
 		   	
 	  FILE *pf, *cont, *pfbanco, *contbanco, *saldobanco, *pelicomprada, *tema;//Punteros que apuntan a los ficheros donde guardamos los datos de los registrados
 		   	        
@@ -126,8 +128,6 @@ int main (){//Programa principal
  		strcat(RutaPeliculasGratuitas,registro.nombre);
 		strcat(RutaPeliculasGratuitas,".txt");
 		
-		printf("%s",RutaPeliculasGratuitas);
-					
 		strcat(RutaSaldo,registro.nombre);
 		strcat(RutaSaldo,".txt");
 					
@@ -139,14 +139,34 @@ int main (){//Programa principal
 	    CopiarFichero("peliculas/peliculas.txt",RutaPeliculasGratuitas);
 
 do{
+	sero=(char*)malloc(3*sizeof(char));
+	zero=(char*)malloc(3*sizeof(char));
+	strcpy(sero,"0");
+	strcpy(zero,"0");
 	  time_t t = time(NULL);//Se obtiene la hora del sistema por cada repeticion del bucle.
  	  struct tm tiempoLocal = *localtime(&t);
  	   DiaActual= tiempoLocal.tm_wday;	
 		Hora=tiempoLocal.tm_hour;
 		Min=tiempoLocal.tm_min;
 		sprintf(HoraSys,"%d",Hora);
-		sprintf(MinutoSys,"%d",Min);
+		//sprintf(MinutoSys,"%d",Min);
+		MinutoSys[0]='4';
+		longh=strlen(HoraSys);
+		longmin=strlen(MinutoSys);
+		//printf("%d, %d\t", longh, longmin);
+		if(longh==1){
+			strcat(zero,HoraSys);
+			strcpy(HoraSys,zero);	
+		}
+			if(longmin==1){
+			strcat(sero,MinutoSys);
+			strcpy(MinutoSys,sero);
+			}
+		
 		printf("%s:%s",HoraSys,MinutoSys);
+ 	  free(zero);
+ 	  free(sero);
+ 	  
  	  
  switch(op1){//El usuario ya está registrado
  	case 1:
