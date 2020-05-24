@@ -1,6 +1,1 @@
-simeon;1234;abcdefgh
-alex;2345;asdfghjk
-carlos;3456;sdfghjkl
-nacho;4567;qwertyui
-maria;5678;wertyuio
 

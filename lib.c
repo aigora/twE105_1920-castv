@@ -132,7 +132,7 @@ int ingreso(usuario nombre){//Función ingreso
 							else exit(1);
 				        }
 				        if (intentos>3)
-				        	printf("Le recuerdo que se contrasena es %s \n",registro[i].password);
+				        	printf("Le recuerdo que su contrasena es %s \n",registro[i].password);
 				        printf("Introduzca password:");
 				        scanf("%s",password.password);
 				        strcpy(nombre.password,password.password);

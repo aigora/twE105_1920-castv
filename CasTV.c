@@ -141,6 +141,7 @@ int main (){//Programa principal
 	    CopiarFichero("peliculas/peliculas.txt",RutaPeliculasGratuitas);
 
 do{
+		  borrar();
 	sero=(char*)malloc(3*sizeof(char));
 	zero=(char*)malloc(3*sizeof(char));
 	strcpy(sero,"0");
@@ -166,10 +167,10 @@ do{
 			strcpy(MinutoSys,sero);
 		}
 		
-		printf("%s:%s",HoraSys,MinutoSys);
+	  printf("%s:%s",HoraSys,MinutoSys);
  	  free(zero);
  	  free(sero);
- 	  borrar();
+ 
  	  
  switch(op1){//El usuario ya está registrado
  	case 1:
