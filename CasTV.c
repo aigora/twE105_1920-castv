@@ -126,17 +126,11 @@ int main (){//Programa principal
  				strcat(RutaPeliculasGratuitas,registro.nombre);
 				strcat(RutaPeliculasGratuitas,".txt");
 		
-				printf("%s",RutaPeliculasGratuitas);
-		
 				strcat(RutaSaldo,registro.nombre);
 				strcat(RutaSaldo,".txt");
-		
-				printf("%s",RutaSaldo);
 					
 				strcat(RutaPeliculasCompradas,registro.nombre);
 				strcat(RutaPeliculasCompradas,".txt");
-		
-				printf("%s",RutaPeliculasCompradas);
 		
 				pelicomprada = fopen(RutaPeliculasGratuitas, "a");
 				fclose(pelicomprada);
@@ -298,7 +292,6 @@ do{
 			    	       printf("Estas son todas las peliculas que disponemos. Si quiere realizar un filtrado dirijase al apartado recomendacion en el menu principal: \n\n");
 			    	       NPG=abrepeliculas(Pgratis,RutaPeliculasGratuitas);
 			    	       
-			    	       printf("Pulse 1 si desea buscar alguna pelicula por el titulo o 2 si desea saber los detalles de alguna\n");
 					       do{
 					       	    printf("Escriba el numero de una pelicula si quiere saber mas detalles.\n\n");
 				    	    	scanf("%d",&op7);
@@ -730,18 +723,12 @@ do{
 						     	//CREO NOMBRES DE RUTAS QUE POSTERIORMENTE USAREMOS
  									strcat(RutaPeliculasGratuitas,registro.nombre);
 									strcat(RutaPeliculasGratuitas,".txt");
-		
-									printf("%s",RutaPeliculasGratuitas);
-		
+	
 									strcat(RutaSaldo,registro.nombre);
 									strcat(RutaSaldo,".txt");
 		
-									printf("%s",RutaSaldo);
-					
 									strcat(RutaPeliculasCompradas,registro.nombre);
 									strcat(RutaPeliculasCompradas,".txt");
-		
-									printf("%s",RutaPeliculasCompradas);
 		
 									pelicomprada = fopen(RutaPeliculasGratuitas, "a");
 									fclose(pelicomprada);
